@@ -86,25 +86,24 @@
 
         }
 
-        #footer a{
+        #footer a {
             color: rgb(185, 185, 185);
             text-decoration: none;
             font-size: 2.5vh;
             transition: 500ms;
         }
-        #footer a:hover{
+
+        #footer a:hover {
             color: whitesmoke;
             font-size: 4vh;
             transition: 500ms;
 
         }
-
-
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lazy Wear</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -118,14 +117,13 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
+                        <a class="nav-link" href="#about us">About us</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link" href="list.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-disabled="true"
-                            href="https://zzzcode.ai/answer-question"><button type="button"
+                        <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
                                 class="btn btn-outline-success" id="login">Login</button></a>
                     </li>
                 </ul>
@@ -261,17 +259,18 @@
                         <h1 class="display-5">Contact us</h1>
                         <p>Phone: 9366851221</p>
                         <p>Email: <a href="mailto:connectlazywear@gmail.com">connectlazywear@gmail.com</a></p>
-                        <p>Instagram: <a href="https://www.instagram.com/connectlazywear?igsh=MTdmZWJ6bXMwaGUzeA==">@connectlazywear</a></p>
+                        <p>Instagram: <a
+                                href="https://www.instagram.com/connectlazywear?igsh=MTdmZWJ6bXMwaGUzeA==">@connectlazywear</a>
+                        </p>
                     </div>
                 </div>
                 <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
                     <div id="foot-explore">
                         <img src="images/box.png" alt="...">
                         <h1 class="display-5">Explore</h1>
-                        <a href="#">Home</a><br>
-                        <a href="#">About</a><br>
-                        <a href="#">Products</a><br>
-                        <a href="#">Login</a><br>
+                        <a href="home.php">Home</a><br>
+                        <a href="list.php">Products</a><br>
+                        <a href="login.php">Login</a><br>
                     </div>
                 </div>
             </div>

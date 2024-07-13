@@ -102,7 +102,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lazy Wear</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -113,17 +113,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
+                        <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link" href="list.php">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-disabled="true"
-                            href="https://zzzcode.ai/answer-question"><button type="button"
+                            href="login.php"><button type="button"
                                 class="btn btn-outline-success" id="loginbtn">Login</button></a>
                     </li>
                 </ul>
@@ -164,7 +161,7 @@
                 <br>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <br><br>
-                <p>Already registered?<a href="#"> Login now</a></p>
+                <p>Already registered?<a href="login.php"> Login now</a></p>
             </form>
         </div>
     </center>
@@ -187,10 +184,9 @@
                     <div id="foot-explore">
                         <img src="images/box.png" alt="...">
                         <h1 class="display-5">Explore</h1>
-                        <a href="#">Home</a><br>
-                        <a href="#">About</a><br>
-                        <a href="#">Products</a><br>
-                        <a href="#">Login</a><br>
+                        <a href="home.php">Home</a><br>
+                        <a href="list.php">Products</a><br>
+                        <a href="login.php">Login</a><br>
                     </div>
                 </div>
             </div>

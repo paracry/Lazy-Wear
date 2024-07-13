@@ -42,7 +42,7 @@
             }
 
         }
-        
+
         /*navbar*/
 
         nav li {
@@ -71,7 +71,7 @@
             object-fit: contain;
         }
 
-        
+
         /*footer*/
         #footer {
             color: whitesmoke;
@@ -102,7 +102,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <?php session_start(); ?>
+    <nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lazy Wear</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -113,13 +114,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
+                        <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link" href="list.php">Products</a>
                     </li>
                 </ul>
 
@@ -131,19 +129,33 @@
 
     <center>
         <div id="login" class="container mt-5">
-            <form>
+            <form class="needs-validation" novalidate method="POST" action="login php.php">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                    <input type="email" class="form-control" id="floatingInput" name="email"
+                        placeholder="name@example.com">
+                        <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" class="form-control" id="validationCustom02" name="password"
+                        placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
+                <?php if (isset($_SESSION['user_error'])) {
+                    echo '<div class="invalid-feedback">';
+                    echo $_SESSION['user_error'];
+                    echo "hello";
+                    echo '</div>';
+                } ?>
+
+                <p>
+                    <?php if (isset($_SESSION['user_error'])) {
+                        echo $_SESSION['user_error'];
+                    } ?>
+                </p>
                 <br>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <br><br>
-                <p>New user?<a href="#"> Register now</a></p>
+                <p>New user?<a href="register.php"> Register now</a></p>
             </form>
         </div>
     </center>
@@ -166,10 +178,9 @@
                     <div id="foot-explore">
                         <img src="images/box.png" alt="...">
                         <h1 class="display-5">Explore</h1>
-                        <a href="#">Home</a><br>
-                        <a href="#">About</a><br>
-                        <a href="#">Products</a><br>
-                        <a href="#">Login</a><br>
+                        <a href="home.php">Home</a><br>
+                        <a href="list.php">Products</a><br>
+                        <a href="login.php">Login</a><br>
                     </div>
                 </div>
             </div>

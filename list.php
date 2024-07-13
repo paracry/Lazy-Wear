@@ -51,6 +51,11 @@
 
         /*navbar*/
 
+        .navbar.bg-dark {
+            background-color: #000000;
+            /* Black color */
+        }
+
         nav li {
             font-size: 2.5vh;
         }
@@ -82,7 +87,7 @@
             color: whitesmoke;
         }
 
-        #foot-img{
+        #foot-img {
             filter: invert();
             height: 10vh;
             width: auto;
@@ -107,7 +112,8 @@
             #product img:hover {
                 transition: 500ms;
             }
-            #product img{
+
+            #product img {
                 width: 50vw;
                 height: 30vh;
                 margin-right: 10vw;
@@ -134,13 +140,15 @@
             }
 
 
+
+
             #pro {
                 width: 45vw;
                 margin-left: -2vw;
                 margin-right: 5vw;
             }
 
-            .price{
+            .price {
                 color: black;
                 text-decoration: underline;
             }
@@ -149,21 +157,62 @@
         }
 
         @media (min-width: 768px) {
-            #product img {
-                width: 25vw;
-                height: auto;
+
+            #contain {
+                display: flex;
             }
+
+            #product img {
+                width: 50vw;
+                height: 50vh;
+                margin-right: 10vw;
+                object-fit: cover;
+                margin-bottom: 1vh;
+                transition: 500ms;
+            }
+
+            #product img:hover{
+                width: 70vw;
+                transform: scale(1.1);
+                margin-bottom: 3vh;
+
+            }
+
 
             #product {
-                width: 25vw;
-                margin: 3.5vw;
+                width: 22vw;
+                height: 56vh;
+                margin: 4vh 0;
+                margin-left: 1vw;
+                background-color: rgb(0, 0, 0);
+                color: white;
+                object-fit: contain;
+                overflow: hidden;
+                border-radius: 10%;
+                transition: 500ms;
+                position: relative;
             }
 
-            .details h2 {
-                font-size: 2vh;
+            #product:hover {
+                box-shadow: 0 0 5vh black;
+                transition: 500ms;
+                border-radius: 3%;
+                height: 62vh;
+            }
+
+            .details h1 {
+                font-size: 3vh;
                 text-align: center;
                 text-decoration: none;
-                color: black;
+                color: rgb(255, 255, 255);
+            }
+
+            .details p{
+                text-align: center;
+            }
+            #link {
+                text-decoration: none !important;
+            }
         }
 
 
@@ -172,7 +221,7 @@
             color: whitesmoke;
         }
 
-        #foot-img{
+        #foot-img {
             filter: invert();
             height: 10vh;
             width: auto;
@@ -196,7 +245,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav id="nav" class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lazy Wear</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -207,13 +256,15 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
+                        <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link active" aria-current="page" href="list.php">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-disabled="true"
+                            href="login.php"><button type="button"
+                                class="btn btn-outline-success" id="loginbtn">Login</button></a>
                     </li>
                 </ul>
 
@@ -221,7 +272,8 @@
         </div>
     </nav>
 
-    <h1 class="display-2 text-center mt-5">Products</h1>
+    <h1 class="display-2 text-center mt-5">Explore</h1>
+    <p class="text-center">Our wide range of collection</p>
 
     <div class="data">
         <?php
@@ -244,22 +296,20 @@
         $row = $result->fetch_assoc();
         $total_entries = $row['total'];
 
-        echo '<h2 class="available">' . $total_entries . ' Properties available to buy in India</h2><br>';
-
         $sql = "SELECT * FROM property";
         $result = $conn->query($sql);
 
         echo '<div class="container-fluid">';
-        echo '<div class="row">';
+        echo '<div id="contain" class="row">';
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo '<div id="pro" class="col-sm-6 col-md 4 col-lg-3">';
-                echo '<a href="property.php?property_id=' . $row["property_id"] . '">';
+                echo '<div id="pro" class="col-sm-6 col-md 1 col-lg-3">';
+                echo '<a id="link" href="property.php?property_id=' . $row["property_id"] . '">';
                 echo '<div id="product" >';
-                echo '<img src="data:image/jpeg;base64,' . base64_encode($row["image"]) . '"/><br>';
+                echo '<img class="image" src="data:image/jpeg;base64,' . base64_encode($row["image"]) . '"/><br>';
                 echo '<div class="details">';
-                echo "<h2 class='price'>Price: <span  id='formattedPrice_" . $row["property_id"] . "'></span></h2>";
-                echo "<script>document.getElementById('formattedPrice_" . $row["property_id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
+                echo '<h1 id="price" class="display-5">Price: 399/-</h1>';
+                echo '<p>Material: cotton | One-day delivery | Available</p>';
                 echo '</div>';
                 echo '</div>';
                 echo "</a>";
@@ -296,10 +346,9 @@
                     <div id="foot-explore">
                         <img id="foot-img" src="images/box.png" alt="...">
                         <h1 class="display-5">Explore</h1>
-                        <a href="#">Home</a><br>
-                        <a href="#">About</a><br>
-                        <a href="#">Products</a><br>
-                        <a href="#">Login</a><br>
+                        <a href="home.php">Home</a><br>
+                        <a href="list.php">Products</a><br>
+                        <a href="login.php">Login</a><br>
                     </div>
                 </div>
             </div>
