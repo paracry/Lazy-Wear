@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
     <script>
         function formatIndianCurrency(price)
@@ -171,7 +170,7 @@
                 transition: 500ms;
             }
 
-            #product img:hover{
+            #product img:hover {
                 width: 70vw;
                 transform: scale(1.1);
                 margin-bottom: 3vh;
@@ -207,9 +206,10 @@
                 color: rgb(255, 255, 255);
             }
 
-            .details p{
+            .details p {
                 text-align: center;
             }
+
             #link {
                 text-decoration: none !important;
             }
@@ -262,8 +262,7 @@
                         <a class="nav-link active" aria-current="page" href="list.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-disabled="true"
-                            href="login.php"><button type="button"
+                        <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
                                 class="btn btn-outline-success" id="loginbtn">Login</button></a>
                     </li>
                 </ul>
@@ -308,8 +307,9 @@
                 echo '<div id="product" >';
                 echo '<img class="image" src="data:image/jpeg;base64,' . base64_encode($row["image"]) . '"/><br>';
                 echo '<div class="details">';
-                echo '<h1 id="price" class="display-5">Price: 399/-</h1>';
-                echo '<p>Material: cotton | One-day delivery | Available</p>';
+                echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["property_id"] . "'></span></h1>";
+                echo "<script>document.getElementById('formattedPrice_" . $row["property_id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
+                echo '<p>Material: cotton | One-day delivery | S M L XL</p>';
                 echo '</div>';
                 echo '</div>';
                 echo "</a>";
@@ -355,9 +355,7 @@
         </div>
     </center>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

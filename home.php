@@ -5,17 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <?php
+    session_start();
+    if (isset($_SESSION['user_id'])) {
+        // User is logged in
+        $userloggedIn = true;
+    } else {
+        $userloggedIn = false;
+    }
+    ?>
 
     <style>
         nav li {
             font-size: 2.5vh;
         }
 
-        #login {
-            margin-top: -0.8vh;
+        #navlogged{
+            margin-top: 0.3vh;
+
         }
+
 
         .carousel {
             max-width: 100vw;
@@ -122,10 +133,25 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="list.php">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
-                                class="btn btn-outline-success" id="login">Login</button></a>
-                    </li>
+                    <?php if ($userloggedIn): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php echo "Welcome ".$_SESSION['username']; ?>
+                            </a>
+                            <ul class="dropdown-menu text-center">
+                                <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
+                                <li><a class="dropdown-item" href="cart.php">Cart</a></li>
+                                <li><a class="dropdown-item" href="orders.php">Orders</a></li>
+                                <li><a class="dropdown-item" href="logout.php"><button class="btn btn-outline-danger">Logout</button></a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
+                                    class="btn btn-outline-success" id="navbtn">Login</button></a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
 
             </div>
@@ -281,9 +307,7 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

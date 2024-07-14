@@ -24,13 +24,15 @@ if ($result->num_rows > 0) {
     echo "User exists in the database. Login successful!";
 
     $user = mysqli_fetch_assoc($result);
-    $_SESSION['username'] = $user['firstname'];
+    session_destroy();
+    session_start();
+    $_SESSION['username'] = $user['first_name'];
     $_SESSION['user_id'] = $user['id'];
     echo $_SESSION['user_id'] . $_SESSION['username'];
     header("Location:  home.php");
 
 } else {
-    $_SESSION['user_error'] = "User not found. Please check your credentials.";
+    $_SESSION['login_error'] = "User not found. Please check your credentials.";
     header("location: login.php");
 }
 

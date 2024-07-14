@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
     <style>
         @media (max-width: 768px) {
@@ -128,12 +127,14 @@
     <h1 class="display-2 text-center mt-5">Login</h1>
 
     <center>
+
         <div id="login" class="container mt-5">
+            <p><?php if(isset($_SESSION['registered'])){echo $_SESSION['registered']; } ?></p>
             <form class="needs-validation" novalidate method="POST" action="login php.php">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" name="email"
                         placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                    <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
                     <input type="password" class="form-control" id="validationCustom02" name="password"
@@ -147,12 +148,11 @@
                     echo '</div>';
                 } ?>
 
-                <p>
-                    <?php if (isset($_SESSION['user_error'])) {
-                        echo $_SESSION['user_error'];
+                <p style="color:red;">
+                    <?php if (isset($_SESSION['login_error'])) {
+                        echo $_SESSION['login_error'];
                     } ?>
                 </p>
-                <br>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <br><br>
                 <p>New user?<a href="register.php"> Register now</a></p>
@@ -187,9 +187,7 @@
         </div>
     </center>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>
