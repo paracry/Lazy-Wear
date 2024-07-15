@@ -34,8 +34,61 @@
                 </div>
             </nav>
 
+            <?php
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "lazy_wear";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            ?>
+
+
+
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <!-- Main content will be displayed here -->
+                <div id="inventory">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Material</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+
+                        $sql = "SELECT * FROM product";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+;
+                                echo '<tr>';
+                                echo '<th scope="row">'.$row["id"].'</th>';
+                                echo '<td scope="col">' . $row["name"] . '</td>';
+                                echo '<td scope="col">' . $row["price"] . '</td>';
+                                echo '<td scope="col">' . $row["color"] .'</td>';
+                                echo '<td scope="col"> '. $row["material"] .'</td>';
+                                echo "</tr>";
+                                echo "</thead>";
+
+
+                            }
+                        }
+                        ?>
+                        </tbody>
+                    </table>";
+                </div>
             </main>
         </div>
     </div>

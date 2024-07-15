@@ -108,14 +108,11 @@
 
 
         @media (max-width: 768px) {
-            #product img:hover {
-                transition: 500ms;
-            }
 
             #product img {
-                width: 50vw;
+                width: 53vw;
                 height: 30vh;
-                margin-right: 10vw;
+                margin-left: -5vw;
                 object-fit: cover;
                 margin-bottom: 1vh;
                 transition: 500ms;
@@ -123,71 +120,58 @@
 
 
             #product {
-                width: 44vw;
-                margin: 3vw;
-                box-shadow: 0 0 1vh black;
-                border-radius: 5vh;
+                width: 50vw;
+
                 object-fit: contain;
                 overflow: hidden;
+                background-color: #000000;
+                color: whitesmoke;
+                border: solid 1vw white;
             }
 
-            .details h2 {
-                font-size: 2vh;
+            .details {
+                font-size: 1.65vh;
                 text-align: center;
                 text-decoration: dotted;
-                color: black;
+                color: whitesmoke;
             }
 
-
-
-
-            #pro {
-                width: 45vw;
-                margin-left: -2vw;
-                margin-right: 5vw;
+            #price {
+                font-size: 3vh;
             }
 
-            .price {
-                color: black;
-                text-decoration: underline;
+            #link {
+                text-decoration: none !important;
             }
+
 
 
         }
 
         @media (min-width: 768px) {
 
-            #contain {
-                display: flex;
-            }
-
             #product img {
-                width: 50vw;
-                height: 50vh;
-                margin-right: 10vw;
+                width: 25vw;
+                height: 60vh;
+                margin-left: -3vw;
                 object-fit: cover;
                 margin-bottom: 1vh;
                 transition: 500ms;
             }
 
-            #product img:hover {
-                width: 70vw;
-                transform: scale(1.1);
-                margin-bottom: 3vh;
-
-            }
-
 
             #product {
                 width: 22vw;
-                height: 56vh;
-                margin: 4vh 0;
-                margin-left: 1vw;
+                height: 66vh;
+                margin: 2.2vh 0;
+                margin-left: 2.2vw;
+                
                 background-color: rgb(0, 0, 0);
                 color: white;
                 object-fit: contain;
                 overflow: hidden;
                 border-radius: 10%;
+                border: none;
                 transition: 500ms;
                 position: relative;
             }
@@ -196,14 +180,18 @@
                 box-shadow: 0 0 5vh black;
                 transition: 500ms;
                 border-radius: 3%;
-                height: 62vh;
+                height: 70vh;
             }
 
-            .details h1 {
-                font-size: 3vh;
+            .details{
+                font-size: 2vh;
                 text-align: center;
                 text-decoration: none;
                 color: rgb(255, 255, 255);
+            }
+
+            #price{
+                font-size: 3vh; 
             }
 
             .details p {
@@ -279,7 +267,7 @@
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "real_estate";
+        $dbname = "lazy_wear";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -290,27 +278,37 @@
         }
 
 
-        $sql = "SELECT COUNT(*) as total FROM property";
+        $sql = "SELECT COUNT(*) as total FROM product";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $total_entries = $row['total'];
 
-        $sql = "SELECT * FROM property";
+        $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
+
+        if ($result->num_rows > 0) {
+            $img = mysqli_fetch_assoc($result);
+        }
+
+
+        $sql = "SELECT * FROM product";
         $result = $conn->query($sql);
 
         echo '<div class="container-fluid">';
-        echo '<div id="contain" class="row">';
+        echo '<div class="row">';
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo '<div id="pro" class="col-sm-6 col-md 1 col-lg-3">';
-                echo '<a id="link" href="property.php?property_id=' . $row["property_id"] . '">';
-                echo '<div id="product" >';
-                echo '<img class="image" src="data:image/jpeg;base64,' . base64_encode($row["image"]) . '"/><br>';
+                $sql = "SELECT * FROM product_images WHERE id=" . $row['id'] . ";";
+                $r = $conn->query($sql);
+                if ($r->num_rows > 0) {
+                    $img = mysqli_fetch_assoc($r);
+                }
+                echo '<div id="product" class="col-sm-6 col-md-4 col-lg-3">';
+                echo '<a id="link" href="product.php?id=' . $row["id"] . '">';
+                echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
                 echo '<div class="details">';
-                echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["property_id"] . "'></span></h1>";
-                echo "<script>document.getElementById('formattedPrice_" . $row["property_id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
-                echo '<p>Material: cotton | One-day delivery | S M L XL</p>';
-                echo '</div>';
+                echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["id"] . "'></span></h1>";
+                echo "<script>document.getElementById('formattedPrice_" . $row["id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
+                echo '<p>Material: ' . ucwords($row["material"]) . ' | Color: ' . ucwords($row["color"]) . ' | S . M . L . XL</p>';
                 echo '</div>';
                 echo "</a>";
                 echo "</div>";
