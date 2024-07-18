@@ -27,6 +27,10 @@
 
         }
 
+        #navbtn{
+            margin-top: -0.8vh;
+        }
+
 
         .carousel {
             max-width: 100vw;

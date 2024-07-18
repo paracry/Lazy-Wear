@@ -12,6 +12,19 @@
             return '₹' + new Intl.NumberFormat('en-IN').format(price) + '/-';
         }
     </script>
+
+
+    <?php
+    session_start();
+    if (isset($_SESSION['user_id'])) {
+        // User is logged in
+        $userloggedIn = true;
+    } else {
+        $userloggedIn = false;
+    }
+    ?>
+
+
     <style>
         @media (max-width: 768px) {
 
@@ -165,7 +178,7 @@
                 height: 66vh;
                 margin: 2.2vh 0;
                 margin-left: 2.2vw;
-                
+
                 background-color: rgb(0, 0, 0);
                 color: white;
                 object-fit: contain;
@@ -183,15 +196,15 @@
                 height: 70vh;
             }
 
-            .details{
+            .details {
                 font-size: 2vh;
                 text-align: center;
                 text-decoration: none;
                 color: rgb(255, 255, 255);
             }
 
-            #price{
-                font-size: 3vh; 
+            #price {
+                font-size: 3vh;
             }
 
             .details p {
@@ -233,7 +246,7 @@
 </head>
 
 <body>
-    <nav id="nav" class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lazy Wear</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -244,15 +257,34 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.php">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" aria-current="page" href="list.php">Products</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
-                                class="btn btn-outline-success" id="loginbtn">Login</button></a>
+                        <a class="nav-link" href="#about us">About us</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="list.php">Products</a>
+                    </li>
+                    <?php if ($userloggedIn): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <?php echo "Welcome " . $_SESSION['username']; ?>
+                            </a>
+                            <ul class="dropdown-menu text-center">
+                                <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
+                                <li><a class="dropdown-item" href="cart.php">Cart</a></li>
+                                <li><a class="dropdown-item" href="orders.php">Orders</a></li>
+                                <li><a class="dropdown-item" href="logout.php"><button
+                                            class="btn btn-outline-danger">Logout</button></a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-disabled="true" href="login.php"><button type="button"
+                                    class="btn btn-outline-success" id="navbtn">Login</button></a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
 
             </div>

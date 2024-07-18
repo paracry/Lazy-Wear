@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         function formatIndianCurrency(price)
@@ -76,12 +77,17 @@
             transition: 300ms;
         }
 
-        #cartbtn{
+        #cartbtn {
             padding: 1vh 6.8vw;
         }
 
-        #wishlistbtn{
+        #wishlistbtn {
             padding: 1vh 5.9vw;
+
+        }
+
+        #removewishlistbtn {
+            padding: 1vh 4.4vw;
 
         }
 
@@ -388,13 +394,39 @@
                     </div>
 
                     <div class="row mt-4 text-center">
-                        <div class="col-sm-6 col-md-4 col-lg-6">
-                            <button type="button" class="btn btn-outline-success" id="cartBtn">Add to Cart</button>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-6">
-                            <button type="button" class="btn btn-outline-danger" id="wishlistBtn">Add to
-                                Wishlist</button>
-                        </div>
+                        <?php if ($userloggedIn): ?>
+                            <div class="col-sm-6 col-md-4 col-lg-6">
+                                <button type="button" class="btn btn-outline-success" id="cartBtn">Add to Cart</button>
+                            </div>
+
+                            <?php
+                            $sql = "SELECT * FROM wishlist WHERE customer_id=" . $_SESSION['user_id'] . " AND product_id='$id'";
+                            $result = $conn->query($sql);
+                            ?>
+
+                            <?php if ($result->num_rows > 0): ?>
+                                <div class="col-sm-6 col-md-4 col-lg-6">
+                                    <button type="button" class="btn btn-outline-secondary" id="removewishlistBtn">Remove from
+                                        Wishlist</button>
+                                    <script> document.getElementById('removewishlistBtn').addEventListener('click', function ()
+                                        {
+                                            window.location.href = 'wishlist remove.php?id=<?php echo $id; ?>';
+                                        });</script>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-sm-6 col-md-4 col-lg-6">
+                                    <button type="button" class="btn btn-outline-danger" id="wishlistBtn">Add to
+                                        Wishlist</button>
+                                </div>
+
+                                <?php if (isset($_SESSION['size_error'])) {
+                                    echo "" . $_SESSION['size_error'] . "";
+                                } ?>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <p style="color:red; margin-bottom:0.5vh;">You can add this item to your Wishlist/Cart once
+                                you're logged in.</p>
+                        <?php endif; ?>
                         <div class="col-sm-12 col-md-4 col-lg-12 mt-4">
                             <button type="button" class="btn btn-outline-info" id="buyBtn">Buy now</button>
                         </div>
@@ -402,7 +434,6 @@
                 </form>
 
 
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
                     $(document).ready(function ()
                     {
@@ -418,13 +449,19 @@
                     document.getElementById('cartBtn').addEventListener('click', function ()
                     {
                         let selectedSize = document.getElementById('size').value;
-                        window.location.href = 'cart.php?size=' + selectedSize;
+                        window.location.href = 'cart.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
                     });
 
                     document.getElementById('wishlistBtn').addEventListener('click', function ()
                     {
                         let selectedSize = document.getElementById('size').value;
-                        window.location.href = 'wishlist.php?size=' + selectedSize;
+                        window.location.href = 'wishlist add.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
+                    });
+
+                    document.getElementById('buyBtn').addEventListener('click', function ()
+                    {
+                        let selectedSize = document.getElementById('size').value;
+                        window.location.href = 'buy.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
                     });
                 </script>
 
