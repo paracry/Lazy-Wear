@@ -22,7 +22,6 @@
         $userloggedIn = false;
     }
     ?>
-
     <style>
         nav li {
             font-size: 2.5vh;
@@ -34,58 +33,15 @@
         }
 
         #navbtn {
-            margin-top: -0.8vh;
+            margin-top: -0.7vh;
         }
 
-        img {
-            height: 20vh;
-            width: auto;
+        .form-group {
+            width: 50vw;
+            margin: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .sticky-row {
-            color: whitesmoke;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: black;
-            /* Add your desired background color */
-            padding: 2vh;
-            border: none;
-            text-align: center;
-            font-size: 3vh;
-            transition: 500ms;
-            /* Adjust padding as needed */
-        }
-
-        .sticky-row:hover {
-            color: whitesmoke;
-            background: black;
-            transition: 500ms;
-        }
-
-
+        /*footer*/
         #footer {
             color: whitesmoke;
         }
@@ -94,7 +50,6 @@
             filter: invert();
             height: 10vh;
             width: auto;
-            z-index: 1;
 
         }
 
@@ -112,7 +67,6 @@
 
         }
     </style>
-
 </head>
 
 <body>
@@ -162,104 +116,38 @@
         </div>
     </nav>
 
-    <table>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Size</th>
-            <th>Quantity</th>
-        </tr>
+    <h1 class="display-4 text-center mt-5 mb-5">Enter your Address</h1>
 
-        <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "lazy_wear";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-
-        $sql = "SELECT COUNT(*) as total FROM product";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $total_entries = $row['total'];
-
-        $total = 0;
-
-        $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
-
-        if ($result->num_rows > 0) {
-            $img = mysqli_fetch_assoc($result);
-        }
-
-
-        $sql = "SELECT * FROM cart where customer_id=" . $_SESSION['user_id'];
-        $result = $conn->query($sql);
-
-        echo '<div class="container-fluid">';
-        echo '<div class="row">';
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $sql = "SELECT * FROM product_images WHERE id=" . $row['product_id'];
-                $r = $conn->query($sql);
-                if ($r->num_rows > 0) {
-                    $img = mysqli_fetch_assoc($r);
-                }
-
-                $sql = "SELECT * FROM product WHERE id=" . $row['product_id'];
-                $re = $conn->query($sql);
-                if ($re->num_rows > 0) {
-                    $product = mysqli_fetch_assoc($re);
-                }
-
-                echo '<a id="link" href="product.php?id=' . $row["product_id"] . '">';
-                echo "<tr>";
-                echo "    <td><a id='link' href='product.php?id=" . $row["product_id"] . "'><img src='" . ($img["img1"]) . "' alt='Item 1'></td></a>";
-                echo "    <td>" . ($product["name"]) . "</td>";
-                echo "    <td>₹" . ($product["price"]) . "/-</td>";
-                echo "    <td>" . ($row["size"]) . "</td>";
-                echo "    <td><input type='number' value='1'></td>";
-                echo "</tr>";
-                echo "";
-                $total = $total + ($product['price']);
-            }
-        }
-        ?>
-        <tr>
-            <td></td>
-            <td>Items total:</td>
-            <td>₹<?php echo $total; ?>/-</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>+Delivery Charges:</td>
-            <td>₹60/-</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <?php $total = $total + 60; ?>
-        <tr>
-            <td></td>
-            <td>Total:</td>
-            <td>₹<?php echo $total; ?>/-</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr class="sticky-row">
-            <td style="padding-right:17.5vw; padding-left:36.5vw;">Total:</td>
-            <td style="padding-right:15vw">₹<?php echo $total; ?>/-</td>
-            <td><button style="padding:1vh 5vw;" class="btn btn-outline-warning">Checkout</button></td>
-        </tr>
-    </table>
+    <div class="container-fluid">
+        <form method="POST" action="address add.php">
+        <div class="form-group mb-4">
+            <p class="text-center">We apologize for the inconvenience, but at this time, we can only accept orders in these areas. If we don't deliver in your location, you can contact us to place a specific order. Contact information is provided below. Thank you!</p>
+        </div> 
+            <div class="form-group mb-4">
+                <label for="street">House/Building/Street Name:</label>
+                <input type="text" class="form-control" id="street" name="street" placeholder="Enter House/Building/Street name" required>
+            </div>
+            <div class="form-group mb-4">
+                <label for="street">Area:</label>
+                <input type="text" class="form-control" id="area" name="area" placeholder="Enter Area name" required>
+            </div>
+            <div class="form-group mb-4">
+                <label for="district">District:</label>
+                <input type="text" class="form-control" id="district" name="district" value="East Khasi Hills" readonly>
+            </div>
+            <div class="form-group mb-4">
+                <label for="state">City:</label>
+                <input type="text" class="form-control" id="city" name="city" value="Shillong" readonly>
+            </div>
+            <div class="form-group ">
+                <label for="city">State:</label>
+                <input type="text" class="form-control" id="city" name="state" value="Meghalaya" readonly>
+            </div>
+            <div class="form-group text-center mt-5">
+            <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </form>
+    </div>
 
     <center>
         <div id="footer" class="container-fluid mt-5 bg-black">
@@ -289,6 +177,7 @@
     </center>
 
     <script src="bootstrap/js/bootstrap.bundle.js"></script>
+
 </body>
 
 </html>
