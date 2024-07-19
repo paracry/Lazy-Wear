@@ -78,11 +78,11 @@
         }
 
         #cartbtn {
-            padding: 1vh 6.8vw;
+            padding: 4vh 6.8vw;
         }
 
         #wishlistbtn {
-            padding: 1vh 5.9vw;
+            padding: 4vh 5.9vw;
 
         }
 
@@ -92,7 +92,7 @@
         }
 
         #buybtn {
-            padding: 1vh 17.8vw;
+            padding: 3vh 17.55vw;
         }
 
         @media (max-width: 768px) {
@@ -395,31 +395,17 @@
 
                     <div class="row mt-4 text-center">
                         <?php if ($userloggedIn): ?>
-                            <?php
-                            $sql = "SELECT * FROM cart WHERE customer_id=" . $_SESSION['user_id'] . " AND product_id='$id'";
-                            $result = $conn->query($sql);
-                            ?>
 
-                            <?php if ($result->num_rows > 0): ?>
-                                <div class="col-sm-6 col-md-4 col-lg-6">
-                                    <button type="button" class="btn btn-outline-secondary" id="viewcartBtn">View Cart</button>
-                                    <script> document.getElementById('viewcartBtn').addEventListener('click', function ()
-                                        {
-                                            window.location.href = 'cart.php';
-                                        });</script>
-                                </div>
-                            <?php else: ?>
-                                <div class="col-sm-6 col-md-4 col-lg-6">
-                                    <button type="button" class="btn btn-outline-success" id="cartBtn">Add to Cart</button>
-                                </div>
-                                <script>
-                                    document.getElementById('cartBtn').addEventListener('click', function ()
-                                    {
-                                        let selectedSize = document.getElementById('size').value;
-                                        window.location.href = 'cart add.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
-                                    });
-                                </script>
-                            <?php endif; ?>
+                            <div class="col-sm-6 col-md-4 col-lg-6">
+                                <button type="button" class="btn btn-outline-success" id="cartBtn">Add to Cart</button>
+                            </div>
+                            <script>
+                                document.getElementById('cartBtn').addEventListener('click', function ()
+                                {
+                                    let selectedSize = document.getElementById('size').value;
+                                    window.location.href = 'cart add.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
+                                });
+                            </script>
 
                             <?php
                             $sql = "SELECT * FROM wishlist WHERE customer_id=" . $_SESSION['user_id'] . " AND product_id='$id'";
@@ -436,6 +422,7 @@
                                         });</script>
                                 </div>
                             <?php else: ?>
+
                                 <div class="col-sm-6 col-md-4 col-lg-6">
                                     <button type="button" class="btn btn-outline-danger" id="wishlistBtn">Add to
                                         Wishlist</button>
@@ -443,16 +430,25 @@
 
 
                             <?php endif; ?>
+                            <?php if (isset($_SESSION['size_error'])) {
+                                echo "" . $_SESSION['size_error'] . "";
+                            } ?>
+                            <?php
+                            $sql = "SELECT * FROM cart WHERE customer_id=" . $_SESSION['user_id'] . " AND product_id='$id'";
+                            $result = $conn->query($sql);
+                            ?>
+
+                            <?php if ($result->num_rows > 0): ?>
+                                <div class="col-sm-12 col-md-4 col-lg-12 mt-4">
+                                    <p>An instance of this item is already present in your cart.</p>
+                                    <a href="cart.php"><button type="button" class="btn btn-outline-info" id="buyBtn">View Cart</button></a>
+                                </div>
+                            <?php endif; ?>
                         <?php else: ?>
-                            <p style="color:red; margin-bottom:0.5vh;">You can add this item to your Wishlist/Cart once
+                            <p style="color:red; margin-bottom:0.5vh;">You can buy or you can add this item to your
+                                Wishlist/Cart once
                                 you're logged in.</p>
                         <?php endif; ?>
-                        <?php if (isset($_SESSION['size_error'])) {
-                            echo "" . $_SESSION['size_error'] . "";
-                        } ?>
-                        <div class="col-sm-12 col-md-4 col-lg-12 mt-4">
-                            <button type="button" class="btn btn-outline-info" id="buyBtn">Buy now</button>
-                        </div>
                     </div>
                 </form>
 
