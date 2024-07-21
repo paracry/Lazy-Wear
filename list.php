@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
+
     <script>
         function formatIndianCurrency(price)
         {
@@ -63,16 +64,15 @@
 
         /*navbar*/
 
-        .navbar.bg-dark {
-            background-color: #000000;
-            /* Black color */
-        }
-
         nav li {
             font-size: 2.5vh;
         }
 
         #loginbtn {
+            margin-top: -0.8vh;
+        }
+
+        #navbtn {
             margin-top: -0.8vh;
         }
 
@@ -257,13 +257,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about us">About us</a>
+                        <a class="nav-link" aria-current="page" href="home.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="list.php">Products</a>
+                        <a class="nav-link active" href="list.php">Products</a>
                     </li>
                     <?php if ($userloggedIn): ?>
                         <li class="nav-item dropdown">
@@ -294,6 +291,78 @@
     <h1 class="display-2 text-center mt-5">Explore</h1>
     <p class="text-center">Our wide range of collection</p>
 
+    <div class="container-fluid text-center">
+        <!-- Button to trigger the modal -->
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterModal">
+            Filter ▼
+        </button>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filter Options</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="list.php" method="POST">
+                        <div class="mb-3">
+                            <label for="priceFilter" class="form-label">Price:</label>
+                            <select class="form-select" id="price-range" name="price-range">
+                                <option value="" disabled selected>Select price range</option>
+                                <option value="100-500">₹100 - ₹500</option>
+                                <option value="500-1000">₹500 - ₹1000</option>
+                                <option value="1000-1500">₹1000 - ₹1500</option>
+                                <option value="1500-2000">₹1500 - ₹2000</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="colorFilter" class="form-label">Color:</label>
+                            <select class="form-select" id="colorFilter" name="color">
+                                <option value="" disabled selected>Select color</option>
+                                <option value="Black">Black</option>
+                                <option value="White">White</option>
+                                <option value="Lavender">Lavender</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sizeFilter" class="form-label">Size:</label>
+                            <select class="form-select" id="sizeFilter" name="size">
+                                <option value="" disabled selected>Select size</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sort" class="form-label">Sort:</label>
+                            <select class="form-select" id="sort" name="sort">
+                                <option value="" disabled selected>Select sorting style</option>
+                                <option value="highToLow">High to Low</option>
+                                <option value="lowToHigh">Low to High</option>
+                            </select>
+                        </div>
+                        <button type="Submit" class="btn btn-primary">Apply Filters</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="data">
         <?php
         $servername = "localhost";
@@ -310,19 +379,61 @@
         }
 
 
-        $sql = "SELECT COUNT(*) as total FROM product";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $total_entries = $row['total'];
+        if (isset($_POST['price-range'])) {
+            $price = $_POST['price-range'];
 
-        $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
+        }
 
-        if ($result->num_rows > 0) {
-            $img = mysqli_fetch_assoc($result);
+        if (isset($_POST['color'])) {
+            $color = $_POST['color'];
+
+        }
+        if (isset($_POST['sort'])) {
+            $sort = $_POST['sort'];
+
+        }
+
+        //if (isset($_POST['size'])) {
+        //  $size = $_POST['size'];
+        
+        //}
+        
+
+        if (!empty($price) || !empty($color)) {
+            // Build the SQL query based on the selected options
+            $sql = "SELECT * FROM product WHERE ";
+
+            // Add conditions based on the selected options
+            $conditions = [];
+
+            if (!empty($price)) {
+                $priceRange = explode("-", $price);
+                $minPrice = $priceRange[0];
+                $maxPrice = $priceRange[1];
+                $conditions[] = "price BETWEEN $minPrice AND $maxPrice";
+            }
+
+            if (!empty($color)) {
+                $conditions[] = "color = '$color'";
+            }
+
+            // Combine the conditions with AND operator
+            $sql .= implode(" AND ", $conditions);
+
+        } else {
+            $sql = "SELECT * FROM product";
         }
 
 
-        $sql = "SELECT * FROM product";
+        if (!empty($sort)) {
+            if ($sort === 'highToLow') {
+                $sql .= " ORDER BY price DESC";
+            } elseif ($sort === 'lowToHigh') {
+                $sql .= " ORDER BY price ASC";
+            }
+        }
+
+
         $result = $conn->query($sql);
 
         echo '<div class="container-fluid">';
@@ -358,7 +469,14 @@
 
 
 
+
     <center>
+        <hr>
+        <p>Thank you for taking the time to look over our collection.<br>Have you not found something you like?<br>Stay
+            tuned
+            as
+            there will be more soon!</p>
+        <hr>
         <div id="footer" class="container-fluid mt-5 bg-black">
             <div class="row">
                 <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
@@ -385,7 +503,8 @@
         </div>
     </center>
 
-    <script src="bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

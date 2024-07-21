@@ -37,57 +37,120 @@
             margin-top: -0.8vh;
         }
 
-        img {
-            height: 20vh;
-            width: auto;
+
+        @media (max-width: 768px) {
+
+            img {
+                width: 20vw;
+                height: auto;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+
+            th,
+            td {
+                padding: 1vw;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+                
+            }
+
+            th {
+                background-color: #f2f2f2;
+                color: #333;
+            }
+
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+
+            #quantity {
+                text-decoration: none;
+            }
+
+            .sticky-row {
+                color: whitesmoke;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: black;
+                /* Add your desired background color */
+                padding: 2vh;
+                border: none;
+                text-align: center;
+                font-size: 3vh;
+                transition: 500ms;
+                /* Adjust padding as needed */
+            }
+
+            .sticky-row:hover {
+                color: whitesmoke;
+                background: black;
+                transition: 500ms;
+            }
+
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
+        @media (min-width: 768px) {
+
+            img {
+                height: 20vh;
+                width: auto;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+
+            th,
+            td {
+                padding: 8px;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                color: #333;
+            }
+
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+
+            #quantity {
+                text-decoration: none;
+            }
+
+            .sticky-row {
+                color: whitesmoke;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: black;
+                /* Add your desired background color */
+                padding: 2vh;
+                border: none;
+                text-align: center;
+                font-size: 3vh;
+                transition: 500ms;
+                /* Adjust padding as needed */
+            }
+
+            .sticky-row:hover {
+                color: whitesmoke;
+                background: black;
+                transition: 500ms;
+            }
+
         }
 
-        th,
-        td {
-            padding: 8px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        #quantity {
-            text-decoration: none;
-        }
-
-        .sticky-row {
-            color: whitesmoke;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: black;
-            /* Add your desired background color */
-            padding: 2vh;
-            border: none;
-            text-align: center;
-            font-size: 3vh;
-            transition: 500ms;
-            /* Adjust padding as needed */
-        }
-
-        .sticky-row:hover {
-            color: whitesmoke;
-            background: black;
-            transition: 500ms;
-        }
 
 
         /*footer*/
@@ -132,10 +195,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about us">About us</a>
+                            <a class="nav-link" aria-current="page" href="home.php">Home</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="list.php">Products</a>
@@ -182,20 +242,8 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-
-        $sql = "SELECT COUNT(*) as total FROM product";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $total_entries = $row['total'];
-
         $itemtotal = 0;
         $total = 0;
-
-        $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
-
-        if ($result->num_rows > 0) {
-            $img = mysqli_fetch_assoc($result);
-        }
 
 
         $sql = "SELECT * FROM cart where customer_id=" . $_SESSION['user_id'];
@@ -246,7 +294,6 @@
                 <td>Total:</td>
                 <td> <span id='formattedPrice_<?php echo $itemtotal; ?>'></td>
                 <script>document.getElementById('formattedPrice_<?php echo $itemtotal; ?>').innerText = formatIndianCurrency(<?php echo $itemtotal; ?>);</script>
-
                 <td> <span id='formattedPrice_<?php echo $total; ?>'></td>
                 <script>document.getElementById('formattedPrice_<?php echo $total; ?>').innerText = formatIndianCurrency(<?php echo $total; ?>);</script>
                 <td></td>

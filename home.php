@@ -7,6 +7,13 @@
     <title>Document</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
+    <script>
+        function formatIndianCurrency(price)
+        {
+            return '₹' + new Intl.NumberFormat('en-IN').format(price) + '/-';
+        }
+    </script>
+
     <?php
     session_start();
     if (isset($_SESSION['user_id'])) {
@@ -22,66 +29,131 @@
             font-size: 2.5vh;
         }
 
-        #navlogged{
+        #navlogged {
             margin-top: 0.3vh;
 
         }
 
-        #navbtn{
+        #navbtn {
             margin-top: -0.8vh;
         }
 
 
-        .carousel {
-            max-width: 100vw;
-            /* Set the maximum width */
-            margin: auto;
-            /* Center the carousel */
+        @media only screen and (max-width: 600px) {
+            /* CSS styles specific for mobile phones */
+
+
+            #logo {
+                width: 90vw;
+                display: block;
+                margin: auto;
+                margin-top: 10vh;
+                object-fit: contain;
+            }
+
+            #product img {
+                width: 53vw;
+                height: 30vh;
+                margin-left: -5vw;
+                object-fit: cover;
+                margin-bottom: 1vh;
+                transition: 500ms;
+            }
+
+
+            #product {
+                width: 50vw;
+
+                object-fit: contain;
+                overflow: hidden;
+                background-color: #000000;
+                color: whitesmoke;
+                border: solid 1vw white;
+            }
+
+            .details {
+                font-size: 1.65vh;
+                text-align: center;
+                text-decoration: dotted;
+                color: whitesmoke;
+            }
+
+            #price {
+                font-size: 3vh;
+            }
+
+            #link {
+                text-decoration: none !important;
+            }
+
+
         }
 
-        .carousel-item img {
-            max-height: 91vh;
+        /* For desktops */
+        @media only screen and (min-width: 601px) {
+            /* CSS styles specific for desktops */
 
-            object-fit: cover;
-            /* Set the maximum height for carousel images */
-        }
+            #logo {
+                width: 38vw;
+                display: block;
+                margin: auto;
+                object-fit: contain;
+            }
 
-        #logo {
-            object-fit: contain;
-        }
+            #product img {
+                width: 25vw;
+                height: 60vh;
+                margin-left: -3vw;
+                object-fit: cover;
+                margin-bottom: 1vh;
+                transition: 500ms;
+            }
 
 
-        #product {
-            height: 70vh;
-            width: auto;
-        }
+            #product {
+                width: 22vw;
+                height: 66vh;
+                margin: 2.2vh 0;
+                margin-left: 2.2vw;
 
-        #product img {
-            height: 78vh;
-            width: auto;
-            object-fit: cover;
-        }
+                background-color: rgb(0, 0, 0);
+                color: white;
+                object-fit: contain;
+                overflow: hidden;
+                border-radius: 10%;
+                border: none;
+                transition: 500ms;
+                position: relative;
+            }
 
-        #but {
-            background-color: #0000001c;
-            /* Adjust the alpha value for blur intensity */
-            backdrop-filter: blur(10px);
-            border: none;
-            transition: 500ms;
-        }
+            #product:hover {
+                box-shadow: 0 0 5vh black;
+                transition: 500ms;
+                border-radius: 3%;
+                height: 70vh;
+            }
 
-        #but:hover {
-            padding: 5vh 5vh;
-            color: whitesmoke;
-            border-radius: 50vh;
-            transition: 500ms;
-        }
+            .details {
+                font-size: 2vh;
+                text-align: center;
+                text-decoration: none;
+                color: rgb(255, 255, 255);
+            }
 
-        #but:active {
-            padding: 5vh 5vh;
-            color: whitesmoke;
-            border-radius: 50vh;
-            transition: 500ms;
+            #price {
+                font-size: 3vh;
+            }
+
+            .details p {
+                text-align: center;
+            }
+
+            #link {
+                text-decoration: none !important;
+            }
+
+
+
         }
 
         #services img {
@@ -131,23 +203,21 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about us">About us</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="list.php">Products</a>
                     </li>
                     <?php if ($userloggedIn): ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php echo "Welcome ".$_SESSION['username']; ?>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <?php echo "Welcome " . $_SESSION['username']; ?>
                             </a>
                             <ul class="dropdown-menu text-center">
                                 <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
                                 <li><a class="dropdown-item" href="cart.php">Cart</a></li>
                                 <li><a class="dropdown-item" href="orders.php">Orders</a></li>
-                                <li><a class="dropdown-item" href="logout.php"><button class="btn btn-outline-danger">Logout</button></a></li>
+                                <li><a class="dropdown-item" href="logout.php"><button
+                                            class="btn btn-outline-danger">Logout</button></a></li>
                             </ul>
                         </li>
                     <?php else: ?>
@@ -162,79 +232,77 @@
         </div>
     </nav>
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img id="logo" src="images/logo.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="images/38_2.webp" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="images/38_4.webp" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+    <div class="container-fluid text-center">
+        <img id="logo" src="images/logo.png" alt="...">
+        <h1 class="display-5 text-center">&nbsp;Itz for you</h1>
     </div>
 
-    <figure class="text-center">
+    <figure class="text-center mt-5">
         <blockquote class="blockquote">
-            <p>Style is a way to say who you are without having to speak.</p>
+            <p>We believe in minimalist yet eye-catching designs.
+            </p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            <cite title="Source Title">Rachel Zoe</cite>
+            <cite title="Source Title">Founders</cite>
         </figcaption>
     </figure>
 
 
     <h1 class="display-4 text-center mt-5">New Arrivals</h1>
 
-    <center>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-sm-1 col-md-6 col-lg-3 mb-5">
-                    <div id="product" class="card" style="width: 18rem;">
-                        <img src="images/ov1.jpg" class="card-img-top" alt="...">
-                        <a href="https://zzzcode.ai/answer-question"><button type="button" id="but"
-                                class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Peek</button></a>
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "lazy_wear";
 
-                    </div>
-                </div>
-                <div class="col-sm-1 col-md-6 col-lg-3 mb-5">
-                    <div id="product" class="card" style="width: 18rem;">
-                        <img src="images/ov2.jpg" class="card-img-top" alt="...">
-                        <a href="https://zzzcode.ai/answer-question"><button type="button" id="but"
-                                class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Peek</button></a>
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-                    </div>
-                </div>
-                <div class="col-sm-1 col-md-1 col-lg-3 mb-5">
-                    <div id="product" class="card" style="width: 18rem;">
-                        <img src="images/ov3.jpg" class="card-img-top" alt="...">
-                        <a href="https://zzzcode.ai/answer-question"><button type="button" id="but"
-                                class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Peek</button></a>
+    $sql = "SELECT * FROM product";
+    $result = $conn->query($sql);
 
-                    </div>
-                </div>
-                <div class="col-sm-1 col-md-6 col-lg-3 mb-5">
-                    <div id="product" class="card" style="width: 18rem;">
-                        <img src="images/ov4.jpeg" class="card-img-top" alt="...">
-                        <a href="https://zzzcode.ai/answer-question"><button type="button" id="but"
-                                class="btn btn-outline-light position-absolute top-50 start-50 translate-middle">Peek</button></a>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-outline-dark" style="margin-top: -6vh;">Explore more collections</button>
-        </div>
-    </center>
+    echo '<div class="container-fluid mt-3">';
+    echo '<div class="row">';
+    $count = 0;
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $sql = "SELECT * FROM product_images WHERE id=" . $row['id'] . ";";
+            $r = $conn->query($sql);
+            if ($r->num_rows > 0) {
+                $img = mysqli_fetch_assoc($r);
+            }
+            echo '<div id="product" class="col-sm-6 col-md-4 col-lg-3">';
+            echo '<a id="link" href="product.php?id=' . $row["id"] . '">';
+            echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
+            echo '<div class="details">';
+            echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["id"] . "'></span></h1>";
+            echo "<script>document.getElementById('formattedPrice_" . $row["id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
+            echo '<p>Material: ' . ucwords($row["material"]) . ' | Color: ' . ucwords($row["color"]) . ' | S . M . L . XL</p>';
+            echo '</div>';
+            echo "</a>";
+            echo "</div>";
+            $count++;
+
+            if ($count == 4) {
+                break;
+            }
+        }
+    } else {
+        echo "no products found";
+    }
+    echo '</div>';
+    echo '</div>';
+    $conn->close();
+    ?>
+    <div class="col-sm-12 col-md-4 col-lg-12 text-center mt-4">
+        <a href="list.php"><button class="btn btn-outline-dark">Explore more</button></a>
+    </div>
 
 
 
@@ -284,6 +352,15 @@
         <div id="footer" class="container-fluid mt-5 bg-black">
             <div class="row">
                 <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
+                    <div id="foot-explore">
+                        <img src="images/box.png" alt="...">
+                        <h1 class="display-5">Explore</h1>
+                        <a href="home.php">Home</a><br>
+                        <a href="list.php">Products</a><br>
+                        <a href="login.php">Login</a><br>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
                     <div id="foot-contact">
                         <img src="images/support.png" alt="...">
                         <h1 class="display-5">Contact us</h1>
@@ -292,15 +369,6 @@
                         <p>Instagram: <a
                                 href="https://www.instagram.com/connectlazywear?igsh=MTdmZWJ6bXMwaGUzeA==">@connectlazywear</a>
                         </p>
-                    </div>
-                </div>
-                <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
-                    <div id="foot-explore">
-                        <img src="images/box.png" alt="...">
-                        <h1 class="display-5">Explore</h1>
-                        <a href="home.php">Home</a><br>
-                        <a href="list.php">Products</a><br>
-                        <a href="login.php">Login</a><br>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,10 @@
 
 
 session_start();
+
+ini_set("SMTP", "smtp.gmail.com");
+ini_set("smtp_port", "587");
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -90,14 +94,31 @@ if (isset($_SESSION['fname_error']) || isset($_SESSION['lname_error']) || isset(
     $phone = $conn->real_escape_string($phone);
     $password = $conn->real_escape_string($password);
 
+    $verificationCode = md5(uniqid(rand(), true));
 
-    $sql = "INSERT INTO `customer` (`first_name`, `last_name`, `email`, `phone`, `password`) VALUES ('$fname', '$lname', '$email', '$phone', '$password')";
+
+
+    $sql = "INSERT INTO `customer` (`first_name`, `last_name`, `email`, `phone`, `password`, `code`, `verified`) VALUES ('$fname', '$lname', '$email', '$phone', '$password', '$verificationCode', 'no')";
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully form2";
         session_destroy();
         session_start();
-        $_SESSION['registered'] = "Registration successful, login to continue";
-        header("Location: login.php");
+        
+        
+        $to = $email;
+        $subject = 'Email Verification';
+        $message = 'Click the following link to verify your email: http://localhost/Lazy%20Wear/Lazy-Wear/verify%20email.php/verify email.php?code=' . $verificationCode;
+            $headers = 'From: connectlazywear@gmail.com';
+            mail($to, $subject, $message, $headers);
+            
+            if (mail($to, $subject, $message, $headers)) {
+                $_SESSION['registered'] = "A verification email is sent to your email address, please follow the link to comeplete your registration";
+                header("Location: login.php");
+        } else {
+            echo 'Email sending failed. Check your server configuration.';
+        }
+
+
 
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

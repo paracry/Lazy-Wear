@@ -38,64 +38,66 @@
         }
 
 
-        .carousel {
-            width: 50vw;
-            height: 91vh;
-            /* Set the maximum width */
-            margin;
-            /* Center the carousel */
-        }
 
-        .carousel-item img {
-            height: 91vh;
-
-            object-fit: cover;
-            /* Set the maximum height for carousel images */
-        }
-
-        #product_details {
-            margin-left: 2vw;
-        }
-
-        .size-option {
-            display: inline-block;
-            padding: 2vh 4vw;
-            margin: 1vh 0.411vw;
-            cursor: pointer;
-            transition: 300ms;
-            border: solid 0.1vh black;
-        }
-
-        .size-option:hover {
-            background-color: black;
-            color: whitesmoke;
-        }
-
-        .size-option.selected {
-            background-color: black;
-            color: white;
-            transition: 300ms;
-        }
-
-        #cartbtn {
-            padding: 4vh 6.8vw;
-        }
-
-        #wishlistbtn {
-            padding: 4vh 5.9vw;
-
-        }
-
-        #removewishlistbtn {
-            padding: 1vh 4.4vw;
-
-        }
-
-        #buybtn {
-            padding: 3vh 17.55vw;
-        }
 
         @media (max-width: 768px) {
+
+            .carousel {
+                width: 94vw;
+                height: 50vh;
+                /* Set the maximum width */
+                margin;
+                /* Center the carousel */
+            }
+
+            .carousel-item img {
+                width: 94vh;
+                height: 50vh;
+
+                object-fit: cover;
+                /* Set the maximum height for carousel images */
+            }
+
+            .size-option {
+                display: inline-block;
+                padding: 2vh 9.12vw;
+                margin: 1vh 0.411vw;
+                cursor: pointer;
+                transition: 300ms;
+                border: solid 0.1vh black;
+            }
+
+            .size-option:hover {
+                background-color: black;
+                color: whitesmoke;
+            }
+
+            .size-option.selected {
+                background-color: black;
+                color: white;
+                transition: 300ms;
+            }
+
+            #cartbtn {
+                padding: 2vh 35vw;
+            }
+
+            #wishlistbtn {
+                padding: 2vh 31.5vw;
+                margin-top: 1vh;
+
+            }
+
+            #removewishlistbtn {
+                padding: 2vh 25.5vw;
+                margin-top: 1vh;
+
+
+            }
+
+            #buybtn {
+                padding: 2vh 36.5vw;
+            }
 
             #product img {
                 width: 53vw;
@@ -137,6 +139,63 @@
         }
 
         @media (min-width: 768px) {
+
+            .carousel {
+                width: 50vw;
+                height: 91vh;
+                /* Set the maximum width */
+                margin;
+                /* Center the carousel */
+            }
+
+            .carousel-item img {
+                height: 91vh;
+
+                object-fit: cover;
+                /* Set the maximum height for carousel images */
+            }
+
+            #product_details {
+                margin-left: 2vw;
+            }
+
+            .size-option {
+                display: inline-block;
+                padding: 2vh 4vw;
+                margin: 1vh 0.411vw;
+                cursor: pointer;
+                transition: 300ms;
+                border: solid 0.1vh black;
+            }
+
+            .size-option:hover {
+                background-color: black;
+                color: whitesmoke;
+            }
+
+            .size-option.selected {
+                background-color: black;
+                color: white;
+                transition: 300ms;
+            }
+
+            #cartbtn {
+                padding: 4vh 6.8vw;
+            }
+
+            #wishlistbtn {
+                padding: 4vh 5.9vw;
+
+            }
+
+            #removewishlistbtn {
+                padding: 4vh 4.2vw;
+
+            }
+
+            #buybtn {
+                padding: 3vh 17.55vw;
+            }
 
             #product img {
                 width: 25vw;
@@ -231,10 +290,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto  mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about us">About us</a>
+                        <a class="nav-link" aria-current="page" href="home.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="list.php">Products</a>
@@ -441,7 +497,8 @@
                             <?php if ($result->num_rows > 0): ?>
                                 <div class="col-sm-12 col-md-4 col-lg-12 mt-4">
                                     <p>An instance of this item is already present in your cart.</p>
-                                    <a href="cart.php"><button type="button" class="btn btn-outline-info" id="buyBtn">View Cart</button></a>
+                                    <a href="cart.php"><button type="button" class="btn btn-outline-info" id="buyBtn">View
+                                            Cart</button></a>
                                 </div>
                             <?php endif; ?>
                         <?php else: ?>
@@ -465,11 +522,6 @@
                     });
                 </script>
                 <script>
-                    document.getElementById('cartBtn').addEventListener('click', function ()
-                    {
-                        let selectedSize = document.getElementById('size').value;
-                        window.location.href = 'cart add.php?size=' + selectedSize + '&id=<?php echo $id; ?>';
-                    });
 
                     document.getElementById('wishlistBtn').addEventListener('click', function ()
                     {
@@ -511,54 +563,54 @@
                 <h1 class="display-6 mt-2">You might also like</h1>
             </div>
         </div>
-        <?php
-        $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
 
-        if ($result->num_rows > 0) {
-            $img = mysqli_fetch_assoc($result);
-        }
+    </div>
+    <?php
+    $sql = "SELECT * FROM product p, product_images i WHERE p.id=i.id;";
+
+    if ($result->num_rows > 0) {
+        $img = mysqli_fetch_assoc($result);
+    }
 
 
-        $sql = "SELECT * FROM product WHERE id!=$id";
-        $result = $conn->query($sql);
+    $sql = "SELECT * FROM product WHERE id!=$id";
+    $result = $conn->query($sql);
 
-        echo '<div class="container-fluid mt-3">';
-        echo '<div class="row">';
-        $count = 0;
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $sql = "SELECT * FROM product_images WHERE id=" . $row['id'] . ";";
-                $r = $conn->query($sql);
-                if ($r->num_rows > 0) {
-                    $img = mysqli_fetch_assoc($r);
-                }
-                echo '<div id="product" class="col-sm-6 col-md-4 col-lg-3">';
-                echo '<a id="link" href="product.php?id=' . $row["id"] . '">';
-                echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
-                echo '<div class="details">';
-                echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["id"] . "'></span></h1>";
-                echo "<script>document.getElementById('formattedPrice_" . $row["id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
-                echo '<p>Material: ' . ucwords($row["material"]) . ' | Color: ' . ucwords($row["color"]) . ' | S . M . L . XL</p>';
-                echo '</div>';
-                echo "</a>";
-                echo "</div>";
-                $count++;
-
-                if ($count == 4) {
-                    break;
-                }
+    echo '<div class="container-fluid mt-3">';
+    echo '<div class="row">';
+    $count = 0;
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $sql = "SELECT * FROM product_images WHERE id=" . $row['id'] . ";";
+            $r = $conn->query($sql);
+            if ($r->num_rows > 0) {
+                $img = mysqli_fetch_assoc($r);
             }
-        } else {
-            echo "no products found";
-        }
-        echo '</div>';
-        echo '</div>';
-        $conn->close();
-        ?>
-        <div class="col-sm-12 col-md-4 col-lg-12 text-center mt-4">
-            <a href="list.php"><button class="btn btn-outline-dark">Explore more</button></a>
-        </div>
+            echo '<div id="product" class="col-sm-6 col-md-4 col-lg-3">';
+            echo '<a id="link" href="product.php?id=' . $row["id"] . '">';
+            echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
+            echo '<div class="details">';
+            echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["id"] . "'></span></h1>";
+            echo "<script>document.getElementById('formattedPrice_" . $row["id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
+            echo '<p>Material: ' . ucwords($row["material"]) . ' | Color: ' . ucwords($row["color"]) . ' | S . M . L . XL</p>';
+            echo '</div>';
+            echo "</a>";
+            echo "</div>";
+            $count++;
 
+            if ($count == 4) {
+                break;
+            }
+        }
+    } else {
+        echo "no products found";
+    }
+    echo '</div>';
+    echo '</div>';
+    $conn->close();
+    ?>
+    <div class="col-sm-12 col-md-4 col-lg-12 text-center mt-4">
+        <a href="list.php"><button class="btn btn-outline-dark">Explore more</button></a>
     </div>
 
     <center>
