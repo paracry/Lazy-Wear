@@ -15,16 +15,17 @@ if ($conn->connect_error) {
 }
 
 $street = $_POST['street'];
+$pincode=$_POST['pincode'];
 $area = $_POST['area'];
 $district = $_POST['district'];
 $city = $_POST['city'];
 $state = $_POST['state'];
 
-$sql = "INSERT INTO `address` (`customer_id`, `street`, `area`, `district`, `city`, `state`) VALUES ('$customer_id' , '$street', '$area', '$district', '$city', '$state')";
+$sql = "INSERT INTO `address` (`customer_id`, `pincode`, `street`, `area`, `district`, `city`, `state`) VALUES ('$customer_id' , '$pincode', '$street', '$area', '$district', '$city', '$state')";
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
-    header("location: checkout.php");
+    header("location: cart.php");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

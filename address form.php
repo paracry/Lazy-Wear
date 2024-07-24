@@ -129,6 +129,10 @@
                 <input type="text" class="form-control" id="area" name="area" placeholder="Enter Area name" required>
             </div>
             <div class="form-group mb-4">
+                <label for="street">Pincode:</label>
+                <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Pincode" required>
+            </div>
+            <div class="form-group mb-4">
                 <label for="district">District:</label>
                 <input type="text" class="form-control" id="district" name="district" value="East Khasi Hills" readonly>
             </div>
