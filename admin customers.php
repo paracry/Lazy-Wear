@@ -30,6 +30,10 @@
         .card-text {
             font-size: 16px;
         }
+
+        table {
+            max-width: 100%;
+        }
     </style>
 </head>
 
@@ -74,56 +78,11 @@
                 </div>
             </div>
         </nav>
-
-        <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "lazy_wear";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $query = "SELECT COUNT(*) as total FROM product";
-
-        // Execute the query
-        $result = $conn->query($query);
-
-        // Get the result
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $itemtotal = $row["total"];
-        } else {
-            echo "0 results";
-        }
-
-        $query = "SELECT COUNT(*) as total FROM customer";
-
-        // Execute the query
-        $result = $conn->query($query);
-
-        // Get the result
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $usertotal = $row["total"];
-        } else {
-            echo "0 results";
-        }
-
-
-        // Close the connection
-        $conn->close();
-        ?>
-        <div class="container-fluid mt-3">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
                     <div class="list-group">
-                        <a href="#" class="list-group-item active">Dashboard</a>
+                        <a href="admin.php" class="list-group-item">Dashboard</a>
                         <a href="admin products.php" class="list-group-item">Products</a>
                         <a href="#" class="list-group-item" data-bs-toggle="collapse"
                             data-bs-target="#orders-collapse">Orders</a>
@@ -131,52 +90,70 @@
                             <a href="admin orders a.php" class="list-group-item">Active</a>
                             <a href="admin orders d.php" class="list-group-item">Delivered</a>
                         </div>
-                        <a href="admin customers.php" class="list-group-item">Customers</a>
+                        <a href="#" class="list-group-item active">Customers</a>
                     </div>
                 </div>
-
-
-
-
                 <div class="col-md-9">
                     <h1>Dashboard</h1>
                     <p>Welcome to the Clothing Brand Admin dashboard.</p>
-                    <a href='https://www.free-counters.org/'>free Hit Counter</a>
-                    <script type='text/javascript'
-                        src='https://www.freevisitorcounters.com/auth.php?id=c723dfbdf3656a73fca1e64c4df7b0bb84850fac'></script>
-                    <script type="text/javascript"
-                        src="https://www.freevisitorcounters.com/en/home/counter/1207570/t/6"></script>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Products</h5>
-                                    <p class="card-text"><?php echo $itemtotal; ?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Orders</h5>
-                                    <p class="card-text">50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Customers</h5>
-                                    <p class="card-text"><?php echo $usertotal; ?></p>
-                                </div>
-                            </div>
-                        </div>
+                    <?php
+                    // Connect to database
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "lazy_wear";
+
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    // Query to retrieve all customers
+                    $sql = "SELECT id, first_name, last_name, phone, email FROM customer";
+                    $result = $conn->query($sql);
+
+                    // Close connection
+                    $conn->close();
+                    ?>
+
+                    <!-- Customer List Table -->
+                    <div class="container mt-5">
+                        <h2>Customer List</h2>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($row = $result->fetch_assoc()) { ?>
+                                    <tr>
+                                        <td><?php echo $row["id"]; ?></td>
+                                        <td><?php echo $row["first_name"]; ?></td>
+                                        <td><?php echo $row["last_name"]; ?></td>
+                                        <td><?php echo $row["phone"]; ?></td>
+                                        <td><?php echo $row["email"]; ?></td>
+                                        <td>
+                                            <a href="delete user.php?id=<?php echo $row["id"]; ?>"
+                                                class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     <?php else: ?>
-        <h1 class="display-1 text-center">Unautorized visit.</h1>
+        <h1 class="display-1 text-center mt-5">Unautorized visit.</h1>
     <?php endif; ?>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>

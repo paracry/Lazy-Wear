@@ -29,7 +29,13 @@ if ($result->num_rows > 0) {
     $_SESSION['username'] = $user['first_name'];
     $_SESSION['user_id'] = $user['id'];
     echo $_SESSION['user_id'] . $_SESSION['username'];
-    header("Location:  home.php");
+    if ($user['lol'] == "ad123min") {
+        $_SESSION['lol'] = $user['id'];
+        header("Location:  admin.php");
+    } else {
+
+        header("location: home.php");
+    }
 
 } else {
     $_SESSION['login_error'] = "User not found. Please check your credentials.";

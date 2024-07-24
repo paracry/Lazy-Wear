@@ -71,7 +71,7 @@ if (!empty($_FILES['images'])) {
     echo "No images selected.";
     $conn->rollback();
 }
-
+header("location: admin products.php");
 
 
 

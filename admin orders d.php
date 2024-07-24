@@ -74,84 +74,30 @@
                 </div>
             </div>
         </nav>
-
-        <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "lazy_wear";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $query = "SELECT COUNT(*) as total FROM product";
-
-        // Execute the query
-        $result = $conn->query($query);
-
-        // Get the result
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $itemtotal = $row["total"];
-        } else {
-            echo "0 results";
-        }
-
-        $query = "SELECT COUNT(*) as total FROM customer";
-
-        // Execute the query
-        $result = $conn->query($query);
-
-        // Get the result
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $usertotal = $row["total"];
-        } else {
-            echo "0 results";
-        }
-
-
-        // Close the connection
-        $conn->close();
-        ?>
-        <div class="container-fluid mt-3">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
                     <div class="list-group">
-                        <a href="#" class="list-group-item active">Dashboard</a>
+                        <a href="admin.php" class="list-group-item">Dashboard</a>
                         <a href="admin products.php" class="list-group-item">Products</a>
-                        <a href="#" class="list-group-item" data-bs-toggle="collapse"
+                        <a href="#" class="list-group-item active" data-bs-toggle="collapse"
                             data-bs-target="#orders-collapse">Orders</a>
                         <div class="collapse" id="orders-collapse">
                             <a href="admin orders a.php" class="list-group-item">Active</a>
-                            <a href="admin orders d.php" class="list-group-item">Delivered</a>
+                            <a href="admin orders d.php" class="list-group-item active">Delivered</a>
                         </div>
                         <a href="admin customers.php" class="list-group-item">Customers</a>
                     </div>
                 </div>
-
-
-
-
                 <div class="col-md-9">
                     <h1>Dashboard</h1>
                     <p>Welcome to the Clothing Brand Admin dashboard.</p>
-                    <a href='https://www.free-counters.org/'>free Hit Counter</a>
-                    <script type='text/javascript'
-                        src='https://www.freevisitorcounters.com/auth.php?id=c723dfbdf3656a73fca1e64c4df7b0bb84850fac'></script>
-                    <script type="text/javascript"
-                        src="https://www.freevisitorcounters.com/en/home/counter/1207570/t/6"></script>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Products</h5>
-                                    <p class="card-text"><?php echo $itemtotal; ?></p>
+                                    <p class="card-text">100</p>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +113,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Customers</h5>
-                                    <p class="card-text"><?php echo $usertotal; ?></p>
+                                    <p class="card-text">200</p>
                                 </div>
                             </div>
                         </div>
