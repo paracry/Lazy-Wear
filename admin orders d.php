@@ -90,36 +90,48 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <h1>Dashboard</h1>
-                    <p>Welcome to the Clothing Brand Admin dashboard.</p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Products</h5>
-                                    <p class="card-text">100</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Orders</h5>
-                                    <p class="card-text">50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Customers</h5>
-                                    <p class="card-text">200</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2>Orders</h2>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Customer ID</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $conn = new mysqli("localhost", "root", "", "lazy_wear");
+                            if ($conn->connect_error) {
+                                die("Connection failed: " . $conn->connect_error);
+                            }
+
+                            $sql = "SELECT * FROM orders WHERE status='delivered'";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                $sql = "SELECT * FROM customer WHERE id=" . $row['customer_id'];
+                                $r = $conn->query($sql);
+                                $customer = $r->fetch_assoc()
+                                    ?>
+                                <tr>
+                                    <td><a
+                                            href="order details.php?order_id=<?php echo $row['order_id']; ?>"><?php echo $row['order_id']; ?></a>
+                                    </td>
+                                    <td><?php echo $customer['first_name']; ?></td>
+                                    <td><?php echo $row['order_date']; ?></td>
+                                    <td><?php echo $row['total']; ?></td>
+                                    <td><?php echo $row['status']; ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
         </div>
     <?php else: ?>
         <h1 class="display-1 text-center">Unautorized visit.</h1>

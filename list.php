@@ -134,7 +134,7 @@
 
             #product {
                 width: 50vw;
-
+                height: 48vh;
                 object-fit: contain;
                 overflow: hidden;
                 background-color: #000000;
@@ -153,19 +153,51 @@
                 font-size: 3vh;
             }
 
-            #link {
-                text-decoration: none !important;
+            #name {
+                font-size: 2vh;
             }
 
+            #link {
+                text-decoration: none !important;
 
+                .image-container {
+                    position: relative;
+                    width: 53vw;
+                    /* Adjust to your image width */
+                    height: 31vh;
+                    /* Adjust to your image height */
+                }
 
+                .original-image,
+                .hover-image {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 53vw;
+                    height: 30vh;
+                    object-fit: cover;
+                    transition: opacity 0.5s ease;
+                }
+
+                .hover-image {
+                    opacity: 0;
+                }
+
+                .image-container:hover .hover-image {
+                    opacity: 1;
+                }
+
+                .image-container:hover .original-image {
+                    opacity: 0;
+                }
+            }
         }
 
         @media (min-width: 768px) {
 
             #product img {
                 width: 25vw;
-                height: 60vh;
+                height: 55vh;
                 margin-left: -3vw;
                 object-fit: cover;
                 margin-bottom: 1vh;
@@ -175,7 +207,7 @@
 
             #product {
                 width: 22vw;
-                height: 66vh;
+                height: 68vh;
                 margin: 2.2vh 0;
                 margin-left: 2.2vw;
 
@@ -193,7 +225,6 @@
                 box-shadow: 0 0 5vh black;
                 transition: 500ms;
                 border-radius: 3%;
-                height: 70vh;
             }
 
             .details {
@@ -207,12 +238,47 @@
                 font-size: 3vh;
             }
 
+            #name {
+                font-size: 2vh;
+            }
+
             .details p {
                 text-align: center;
             }
 
             #link {
                 text-decoration: none !important;
+            }
+
+            .image-container {
+                position: relative;
+                width: 22vw;
+                /* Adjust to your image width */
+                height: 56vh;
+                /* Adjust to your image height */
+            }
+
+            .original-image,
+            .hover-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 22vw;
+                height: 60vh;
+                object-fit: cover;
+                transition: opacity 0.5s ease;
+            }
+
+            .hover-image {
+                opacity: 0;
+            }
+
+            .image-container:hover .hover-image {
+                opacity: 1;
+            }
+
+            .image-container:hover .original-image {
+                opacity: 0;
             }
         }
 
@@ -293,7 +359,8 @@
 
     <div class="container-fluid text-center">
         <!-- Button to trigger the modal -->
-        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterModal">
+        <button type="button" class="btn btn-outline-dark mt-1 mb-4" data-bs-toggle="modal"
+            data-bs-target="#filterModal">
             Filter ▼
         </button>
     </div>
@@ -310,6 +377,9 @@
                 <div class="modal-body">
                     <form action="list.php" method="POST">
                         <div class="mb-3">
+                        <label for="Search" class="form-label">Search:</label>
+                            <input class="form-control" id="search" type="text" name="search" placeholder="Search"
+                                aria-label="Search">
                             <label for="priceFilter" class="form-label">Price:</label>
                             <select class="form-select" id="price-range" name="price-range">
                                 <option value="" disabled selected>Select price range</option>
@@ -378,6 +448,11 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
+        if (isset($_POST['search'])) {
+            $search = $_POST['search'];
+
+        }
+
 
         if (isset($_POST['price-range'])) {
             $price = $_POST['price-range'];
@@ -399,12 +474,16 @@
         //}
         
 
-        if (!empty($price) || !empty($color)) {
+        if (!empty($price) || !empty($color) || !empty($search)) {
             // Build the SQL query based on the selected options
             $sql = "SELECT * FROM product WHERE ";
 
             // Add conditions based on the selected options
             $conditions = [];
+
+            if (!empty($search)) {
+                $conditions[] = "name LIKE '%$search%'";
+            }
 
             if (!empty($price)) {
                 $priceRange = explode("-", $price);
@@ -447,8 +526,13 @@
                 }
                 echo '<div id="product" class="col-sm-6 col-md-4 col-lg-3">';
                 echo '<a id="link" href="product.php?id=' . $row["id"] . '">';
-                echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
+                //echo '<img class="image" src="' . ($img["img1"]) . '"/><br>';
+                echo ' <div class="image-container">';
+                echo '<img src="' . ($img["img1"]) . '" alt="Original Image" class="original-image">';
+                echo '<img src="' . ($img["img2"]) . '" alt="Hover Image" class="hover-image">';
+                echo '</div>';
                 echo '<div class="details">';
+                echo "<h1 id='name' class='display-6'>" . ucwords($row["name"]) . "</h1>";
                 echo "<h1 id='price' class='display-5'>Price: <span  id='formattedPrice_" . $row["id"] . "'></span></h1>";
                 echo "<script>document.getElementById('formattedPrice_" . $row["id"] . "').innerText = formatIndianCurrency(" . $row['price'] . ");</script>";
                 echo '<p>Material: ' . ucwords($row["material"]) . ' | Color: ' . ucwords($row["color"]) . ' | S . M . L . XL</p>';

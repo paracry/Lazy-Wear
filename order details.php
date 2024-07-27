@@ -31,8 +31,9 @@
             font-size: 16px;
         }
 
-        table {
-            max-width: 100%;
+        img {
+            width: 10vw;
+            height: auto;
         }
     </style>
 </head>
@@ -84,79 +85,75 @@
                     <div class="list-group">
                         <a href="admin.php" class="list-group-item">Dashboard</a>
                         <a href="admin products.php" class="list-group-item">Products</a>
-                        <a href="#" class="list-group-item" data-bs-toggle="collapse"
+                        <a href="#" class="list-group-item active" data-bs-toggle="collapse"
                             data-bs-target="#orders-collapse">Orders</a>
                         <div class="collapse" id="orders-collapse">
-                            <a href="admin orders a.php" class="list-group-item">Active</a>
+                            <a href="admin orders a.php" class="list-group-item active">Active</a>
                             <a href="admin orders d.php" class="list-group-item">Delivered</a>
                         </div>
-                        <a href="#" class="list-group-item active">Customers</a>
+                        <a href="admin customers.php" class="list-group-item">Customers</a>
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <h1>Dashboard</h1>
-                    <p>Welcome to the Clothing Brand Admin dashboard.</p>
-                    <?php
-                    // Connect to database
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "lazy_wear";
+                    <div class="container">
+                        <div class="row">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2>Order Details</h2>
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Product ID</th>
+                                                    <th scope="col">Size</th>
+                                                    <th scope="col">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $order_id = $_GET['order_id'];
 
-                    $conn = new mysqli($servername, $username, $password, $dbname);
+                                                echo "<h3>Order Id: " . $order_id . "</h3>";
 
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
+                                                $conn = new mysqli("localhost", "root", "", "lazy_wear");
+                                                if ($conn->connect_error) {
+                                                    die("Connection failed: " . $conn->connect_error);
+                                                }
 
-                    // Query to retrieve all customers
-                    $sql = "SELECT id, first_name, last_name, phone, email FROM customer";
-                    $result = $conn->query($sql);
+                                                $sql = "SELECT * FROM order_items WHERE order_id = '$order_id'";
+                                                $result = $conn->query($sql);
 
-                    // Close connection
-                    $conn->close();
-                    ?>
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $sql = "SELECT * FROM product_images WHERE id = " . $row['product_id'];
+                                                    $r = $conn->query($sql);
+                                                    $img = $r->fetch_assoc()
+                                                        ?>
+                                                    <tr>
+                                                        <td><a href="product.php?id=<?php echo $row['product_id']; ?>"><img
+                                                                    src="<?php echo $img['img1']; ?>"></a>
+                                                        </td>
+                                                        <td><?php echo $row['product_id']; ?></td>
+                                                        <td><?php echo $row['size']; ?></td>
+                                                        <td><?php echo $row['quantity']; ?></td>
 
-                    <!-- Customer List Table -->
-                    <div class="container mt-5">
-                        <h2>Customer List</h2>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while ($row = $result->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td>
-                                            <a href="customer.php?id=<?php echo $row["id"]; ?>"
-                                                class="btn btn-outline-primary"><?php echo $row["id"]; ?></a>
-                                        </td>
-                                        <td><?php echo $row["first_name"]; ?></td>
-                                        <td><?php echo $row["last_name"]; ?></td>
-                                        <td><?php echo $row["phone"]; ?></td>
-                                        <td><?php echo $row["email"]; ?></td>
-                                        <td>
-                                            <a href="delete user.php?id=<?php echo $row["id"]; ?>"
-                                                class="btn btn-danger">Delete</a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                                    </tr>
+
+                                                    <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     <?php else: ?>
-        <h1 class="display-1 text-center mt-5">Unautorized visit.</h1>
+        <h1 class="display-1 text-center">Unautorized visit.</h1>
     <?php endif; ?>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>

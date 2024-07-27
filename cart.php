@@ -56,7 +56,7 @@
                 padding: 1vw;
                 text-align: center;
                 border-bottom: 1px solid #ddd;
-                
+
             }
 
             th {
@@ -330,7 +330,9 @@
                     </div>
                     <div class="col text-end">
                         <?php if ($result->num_rows > 0): ?>
-                            <button style="padding: 1vh 5vw" class="btn btn-primary">Place Order</button>
+                            <form action="orders add.php" method="post">
+                                <input type="submit" name="place_order" value="Place Order">
+                            </form>
                         <?php else: ?>
                             <a href="address form.php"><button style="padding: 1vh 5vw" class="btn btn-primary">Add
                                     Address</button></a>

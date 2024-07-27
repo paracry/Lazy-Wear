@@ -296,10 +296,11 @@
     ?>
 
 
-<center>
-    <p>The best is yet to come...</p>
-    <button type="button" class="btn btn-outline-dark">Keep exploring more of our collections</button>
-    <div id="footer" class="container-fluid mt-5 bg-black">
+    <center>
+        <p>The best is yet to come...</p>
+        <a href='list.php'><button class='btn btn-outline-dark mt-5 mb-5'>Explore our wide range of
+                collections</button></a>
+        <div id="footer" class="container-fluid mt-5 bg-black">
             <div class="row">
                 <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
                     <div id="foot-contact">

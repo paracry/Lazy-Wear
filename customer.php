@@ -94,15 +94,13 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <h1>Dashboard</h1>
-                    <p>Welcome to the Clothing Brand Admin dashboard.</p>
                     <?php
-                    // Connect to database
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
                     $dbname = "lazy_wear";
 
+                    // Create connection
                     $conn = new mysqli($servername, $username, $password, $dbname);
 
                     // Check connection
@@ -110,47 +108,61 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    // Query to retrieve all customers
-                    $sql = "SELECT id, first_name, last_name, phone, email FROM customer";
-                    $result = $conn->query($sql);
+                    // Get the user ID from the link
+                    $user_id = $_GET['id'];
 
-                    // Close connection
+                    // Prepare the query to retrieve the user's information
+                    $stmt = $conn->prepare("SELECT * FROM `customer` WHERE `id` = ?");
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    // Fetch the user's information
+                    $user_data = $result->fetch_assoc();
+
+                    // Prepare the query to retrieve the user's address
+                    $stmt = $conn->prepare("SELECT * FROM `address` WHERE `customer_id` = ?");
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    // Fetch the user's address
+                    $address_data = $result->fetch_assoc();
+
+                    if (empty($address_data)) {
+                        $address_message = "No address set yet.";
+                    } else {
+                        $address_message = "";
+                        $street = $address_data['street'];
+                        $pincode = $address_data['pincode'];
+                        $area = $address_data['area'];
+                        $district = $address_data['district'];
+                        $city = $address_data['city'];
+                        $state = $address_data['state'];
+                    }
+                    // Close the connection
                     $conn->close();
                     ?>
 
-                    <!-- Customer List Table -->
-                    <div class="container mt-5">
-                        <h2>Customer List</h2>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while ($row = $result->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td>
-                                            <a href="customer.php?id=<?php echo $row["id"]; ?>"
-                                                class="btn btn-outline-primary"><?php echo $row["id"]; ?></a>
-                                        </td>
-                                        <td><?php echo $row["first_name"]; ?></td>
-                                        <td><?php echo $row["last_name"]; ?></td>
-                                        <td><?php echo $row["phone"]; ?></td>
-                                        <td><?php echo $row["email"]; ?></td>
-                                        <td>
-                                            <a href="delete user.php?id=<?php echo $row["id"]; ?>"
-                                                class="btn btn-danger">Delete</a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                    <!-- Display the user's information and address -->
+                    <div class="user-profile">
+                        <h2>User Profile</h2>
+                        <p><strong>First Name:</strong> <?php echo $user_data['first_name']; ?></p>
+                        <p><strong>Last Name:</strong> <?php echo $user_data['last_name']; ?></p>
+                        <p><strong>Email:</strong> <?php echo $user_data['email']; ?></p>
+                        <p><strong>Phone:</strong> <?php echo $user_data['phone']; ?></p>
+
+                        <h3>Address</h3>
+                        <?php if (!empty($address_message)) { ?>
+                            <p><?php echo $address_message; ?></p>
+                        <?php } else { ?>
+                            <p><strong>Street:</strong> <?php echo $address_data['street']; ?></p>
+                            <p><strong>Pincode:</strong> <?php echo $address_data['pincode']; ?></p>
+                            <p><strong>Area:</strong> <?php echo $address_data['area']; ?></p>
+                            <p><strong>District:</strong> <?php echo $address_data['district']; ?></p>
+                            <p><strong>City:</strong> <?php echo $address_data['city']; ?></p>
+                            <p><strong>State:</strong> <?php echo $address_data['state']; ?></p>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

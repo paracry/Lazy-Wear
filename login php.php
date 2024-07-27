@@ -16,27 +16,36 @@ if ($conn->connect_error) {
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// Query to check user existence
-$sql = "SELECT * FROM customer WHERE email='$email' AND password='$password'";
-$result = $conn->query($sql);
+// Query to retrieve user data
+$sql = "SELECT * FROM customer WHERE email=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    echo "User exists in the database. Login successful!";
-
     $user = mysqli_fetch_assoc($result);
-    session_destroy();
-    session_start();
-    $_SESSION['username'] = $user['first_name'];
-    $_SESSION['user_id'] = $user['id'];
-    echo $_SESSION['user_id'] . $_SESSION['username'];
-    if ($user['lol'] == "ad123min") {
-        $_SESSION['lol'] = $user['id'];
-        header("Location:  admin.php");
+    $hashedPassword = $user['password']; // Retrieve the hashed password from the database
+
+    // Verify the password using password_verify()
+    if (password_verify($password, $hashedPassword)) {
+        echo "Password is correct. Login successful!";
+
+        session_destroy();
+        session_start();
+        $_SESSION['username'] = $user['first_name'];
+        $_SESSION['user_id'] = $user['id'];
+        echo $_SESSION['user_id'] . $_SESSION['username'];
+        if ($user['lol'] == "ad123min") {
+            $_SESSION['lol'] = $user['id'];
+            header("Location:  admin.php");
+        } else {
+            header("location: home.php");
+        }
     } else {
-
-        header("location: home.php");
+        $_SESSION['login_error'] = "Invalid password. Please try again.";
+        header("location: login.php");
     }
-
 } else {
     $_SESSION['login_error'] = "User not found. Please check your credentials.";
     header("location: login.php");

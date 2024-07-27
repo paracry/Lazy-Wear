@@ -216,6 +216,7 @@
                                 <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
                                 <li><a class="dropdown-item" href="cart.php">Cart</a></li>
                                 <li><a class="dropdown-item" href="orders.php">Orders</a></li>
+
                                 <li><a class="dropdown-item" href="logout.php"><button
                                             class="btn btn-outline-danger">Logout</button></a></li>
                             </ul>
@@ -234,9 +235,14 @@
 
     <div class="container-fluid text-center">
         <img id="logo" src="images/logo.png" alt="...">
-        <h1 class="display-5 text-center">&nbsp;Itz for you</h1>
     </div>
-
+    <!-- Search Bar -->
+    <div class="container mt-5">
+        <form class="d-flex" action="list.php" method="POST">
+            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
     <figure class="text-center mt-5">
         <blockquote class="blockquote">
             <p>We believe in minimalist yet eye-catching designs.
