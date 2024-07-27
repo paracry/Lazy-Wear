@@ -20,6 +20,6 @@ if (!$conn->query($sql)) {
 $conn->close();
 
 // Redirect to the orders page
-header("Location: orders.php");
+header("Location: admin orders a.php");
 exit;
 ?>

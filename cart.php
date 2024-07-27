@@ -331,7 +331,7 @@
                     <div class="col text-end">
                         <?php if ($result->num_rows > 0): ?>
                             <form action="orders add.php" method="post">
-                                <input type="submit" name="place_order" value="Place Order">
+                                <button class="btn btn-primary" type="submit" name="place_order" value="Place Order">Place Order</button>
                             </form>
                         <?php else: ?>
                             <a href="address form.php"><button style="padding: 1vh 5vw" class="btn btn-primary">Add

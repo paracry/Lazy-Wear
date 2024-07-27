@@ -115,6 +115,45 @@
             echo "0 results";
         }
 
+        $query = "SELECT COUNT(*) as total FROM orders";
+
+        // Execute the query
+        $result = $conn->query($query);
+
+        // Get the result
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $orderstotal = $row["total"];
+        } else {
+            echo "0 results";
+        }
+
+        $query = "SELECT COUNT(*) as total FROM orders WHERE status='pending'";
+
+        // Execute the query
+        $result = $conn->query($query);
+
+        // Get the result
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $orderspending = $row["total"];
+        } else {
+            echo "0 results";
+        }
+
+        $query = "SELECT COUNT(*) as total FROM orders WHERE status='delivered'";
+
+        // Execute the query
+        $result = $conn->query($query);
+
+        // Get the result
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $orderdelivered = $row["total"];
+        } else {
+            echo "0 results";
+        }
+
 
         // Close the connection
         $conn->close();
@@ -159,7 +198,23 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Orders</h5>
-                                    <p class="card-text">50</p>
+                                    <p class="card-text"><?php echo $orderstotal; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Active Orders</h5>
+                                    <p class="card-text"><?php echo $orderspending; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Delivered Orders</h5>
+                                    <p class="card-text"><?php echo $orderdelivered; ?></p>
                                 </div>
                             </div>
                         </div>
