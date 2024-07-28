@@ -129,7 +129,15 @@
     <center>
 
         <div id="login" class="container mt-5">
-            <p><?php if(isset($_SESSION['registered'])){echo $_SESSION['registered']; } ?></p>
+            <?php if (isset($_SESSION['registered'])): ?>
+                <div class="alert alert-success"><?php echo $_SESSION['registered']; ?></div>
+                <?php unset($_SESSION['registered']); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['login_error'])): ?>
+                <div class="alert alert-danger"><?php echo $_SESSION['login_error']; ?></div>
+                <?php unset($_SESSION['login_error']); ?>
+            <?php endif; ?>
             <form class="needs-validation" novalidate method="POST" action="login php.php">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" name="email"
@@ -140,22 +148,14 @@
                     <input type="password" class="form-control" id="validationCustom02" name="password"
                         placeholder="Password">
                     <label for="floatingPassword">Password</label>
-                </div>
-                <?php if (isset($_SESSION['user_error'])) {
-                    echo '<div class="invalid-feedback">';
-                    echo $_SESSION['user_error'];
-                    echo "hello";
-                    echo '</div>';
-                } ?>
+                </div><br>
 
-                <p style="color:red;">
-                    <?php if (isset($_SESSION['login_error'])) {
-                        echo $_SESSION['login_error'];
-                    } ?>
-                </p>
+
+
                 <button type="submit" class="btn btn-primary">Login</button>
                 <br><br>
                 <p>New user?<a href="register.php"> Register now</a></p>
+                <a href="forget password.php">Forget password?</a>
             </form>
         </div>
     </center>

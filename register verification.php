@@ -84,7 +84,10 @@ if ($stmt->affected_rows > 0) {
     echo "New record created successfully";
     session_destroy();
     session_start();
-    header("Location: login.php");
+    $_SESSION['email'] = $email;
+    $_SESSION['registered'] = "User Registered Successfully<br> Login to continue";
+
+    header("Location: save answer.php");
 } else {
     echo "Error: " . $stmt->error;
 }

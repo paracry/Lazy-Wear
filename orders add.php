@@ -40,6 +40,7 @@ if (isset($_POST['place_order'])) {
         $total += $row['price'] * $item['quantity'];
     }
 
+    $total = $total + 60;
     // Insert the order into the orders table
     $sql = "INSERT INTO orders (customer_id, order_date, total, status) VALUES ('$user_id', NOW(), '$total', 'pending')";
     $conn->query($sql);

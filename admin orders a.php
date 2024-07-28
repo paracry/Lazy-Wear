@@ -30,6 +30,10 @@
         .card-text {
             font-size: 16px;
         }
+
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -124,15 +128,18 @@
                                                 <td><a
                                                         href="order details.php?order_id=<?php echo $row['order_id']; ?>"><?php echo $row['order_id']; ?></a>
                                                 </td>
-                                                <td><?php echo $customer['first_name']; ?></td>
+                                                <td>
+                                                    <a
+                                                        href="customer.php?id=<?php echo $customer["id"]; ?>"><?php echo $customer['first_name'] . " " . $customer['last_name']; ?></a>
+                                                </td>
                                                 <td><?php echo $row['order_date']; ?></td>
                                                 <td><?php echo $row['total']; ?></td>
                                                 <td><?php echo $row['status']; ?></td>
-                                                <td><a
-                                                        href="delete order.php?order_id=<?php echo $row['order_id']; ?>"><button type='button' class='btn btn-outline-danger'>Delete</button></a>
+                                                <td><a href="delete order.php?order_id=<?php echo $row['order_id']; ?>"><button
+                                                            type='button' class='btn btn-outline-danger'>Delete</button></a>
                                                 </td>
-                                                <td><a
-                                                        href="complete order.php?order_id=<?php echo $row['order_id']; ?>"><button type='button' class='btn btn-outline-success'>Complete</button></a>
+                                                <td><a href="complete order.php?order_id=<?php echo $row['order_id']; ?>"><button
+                                                            type='button' class='btn btn-outline-success'>Complete</button></a>
                                                 </td>
                                             </tr>
                                             <?php

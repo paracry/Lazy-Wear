@@ -142,40 +142,45 @@
             <form method="POST" action="register verification.php">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" name="fname" placeholder="Alex" required>
-                    <label for="floatingInput" >First Name</label>
-                    <p>
-                        <?php if (isset($_SESSION['fname_error'])) {
-                            echo $_SESSION['fname_error'];
-                        } ?>
-                    </p>
+                    <label for="floatingInput">First Name</label>
+                    <?php if (isset($_SESSION['fname_error'])): ?>
+                        <br>
+                        <div class="alert alert-danger"><?php echo $_SESSION['fname_error']; ?></div>
+                        <?php unset($_SESSION['fname_error']); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" name="lname" placeholder="Barn" required>
-                    <label for="floatingInput" >Last Name</label>
-                    <p>
-                        <?php if (isset($_SESSION['lname_error'])) {
-                            echo $_SESSION['lname_error'];
-                        } ?>
-                    </p>
+                    <label for="floatingInput">Last Name</label>
+                    <?php if (isset($_SESSION['lname_error'])): ?>
+                        <br>
+                        <div class="alert alert-danger"><?php echo $_SESSION['lname_error']; ?></div>
+                        <?php unset($_SESSION['lname_error']); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" id="floatingInput" name="phone" placeholder="9366851221" required>
-                    <label for="floatingInput" >Phone Number</label>
-                    <p>
-                        <?php if (isset($_SESSION['phone_error'])) {
-                            echo $_SESSION['phone_error'];
-                        } ?>
-                    </p>
+                    <input type="number" class="form-control" id="floatingInput" name="phone" placeholder="9366851221"
+                        required>
+                    <label for="floatingInput">Phone Number</label>
+                    <?php if (isset($_SESSION['phone_error'])): ?>
+                        <br>
+                        <div class="alert alert-danger"><?php echo $_SESSION['phone_error']; ?></div>
+                        <?php unset($_SESSION['phone_error']); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" name="email"
                         placeholder="name@example.com" required>
                     <label for="floatingInput">Email address</label>
-                    <p>
-                        <?php if (isset($_SESSION['email_error'])) {
-                            echo $_SESSION['email_error'];
-                        } ?>
-                    </p>
+                    <?php if (isset($_SESSION['email_error'])): ?>
+                        <br>
+                        <div class="alert alert-danger"><?php echo $_SESSION['email_error']; ?></div>
+                        <?php unset($_SESSION['email_error']); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" name="password"
@@ -186,11 +191,12 @@
                     <input type="password" class="form-control" id="floatingPassword" name="confirm_password"
                         placeholder="Password" required>
                     <label for="floatingPassword">Confirm Password</label>
-                    <p>
-                        <?php if (isset($_SESSION['password_error'])) {
-                            echo $_SESSION['password_error'];
-                        } ?>
-                    </p>
+                    <?php if (isset($_SESSION['password_error'])): ?>
+                        <br>
+                        <div class="alert alert-danger"><?php echo $_SESSION['password_error']; ?></div>
+                        <?php unset($_SESSION['password_error']); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">Login</button>

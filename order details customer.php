@@ -36,19 +36,17 @@
             margin-top: -0.8vh;
         }
 
-        table {
-            height: 40vh;
-        }
-
-        td,
-        th {
+        td, th {
             text-align: center;
             /* center horizontally */
             vertical-align: middle;
             /* center vertically */
         }
 
-
+        img {
+            height: 15vh;
+            width: auto;
+        }
 
 
         /*footer*/
@@ -122,83 +120,53 @@
         </div>
     </nav>
     <div class="container-fluid">
-        <h2 class="display-4 text-center mt-5">Orders</h2>
-        <table class="table table-bordered">
-            <?php
-            $conn = new mysqli("localhost", "root", "", "lazy_wear");
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            $sql = "SELECT * FROM orders WHERE customer_id=" . $_SESSION['user_id'];
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) { ?>
-                <thead>
-                    <tr style="color:white; background-color:black;">
-                        <th scope="col" style="color:white; background-color:black;">Order ID</th>
-                        <th scope="col" style="color:white; background-color:black;">Order Date</th>
-                        <th scope="col" style="color:white; background-color:black;">Total</th>
-                        <th scope="col" style="color:white; background-color:black;">Status</th>
-                        <th scope="col" style="color:white; background-color:black;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-
-                    while ($row = $result->fetch_assoc()) {
-                        $sql = "SELECT * FROM customer WHERE id=" . $row['customer_id'];
-                        $r = $conn->query($sql);
-                        $customer = $r->fetch_assoc()
-                            ?>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Order Details</h2>
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td><a
-                                    href="order details customer.php?order_id=<?php echo $row['order_id']; ?>"><?php echo $row['order_id']; ?></a>
-                            </td>
-                            <td><?php echo $row['order_date']; ?></td>
-                            <td>₹<?php echo number_format($row['total'], 2, '.', ','); ?>/-</td>
-                            <td><?php echo $row['status']; ?></td>
-                            <?php if ($row['status'] == "pending"): ?>
-                                <td>
-                                    <button type='button' class='btn btn-outline-danger' data-bs-toggle="modal"
-                                        data-bs-target="#cancelModal<?php echo $row['order_id']; ?>">Cancel Order</button>
-                                </td>
-                            <?php else: ?>
-                                <td><a href="order details customer.php?order_id=<?php echo $row['order_id']; ?>"><button
-                                            type='button' class='btn btn-outline-info'>View order</button></a>
-                                </td>
-                            <?php endif; ?>
+                            <th scope="col">Product</th>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Quantity</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        // Modal for canceling
-                        echo "<div class='modal fade' id='cancelModal" . $row['order_id'] . "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>";
-                        echo "  <div class='modal-dialog'>";
-                        echo "    <div class='modal-content'>";
-                        echo "      <div class='modal-header'>";
-                        echo "        <h5 class='modal-title' id='exampleModalLabel'>Cancel Order</h5>";
-                        echo "        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
-                        echo "      </div>";
-                        echo "      <div class='modal-body'>";
-                        echo " <p>Are you sure you want to cancel this order?</p>";
-                        echo "      </div>";
-                        echo "      <div class='modal-footer'>";
-                        echo "        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>";
-                        echo "        <a href='cancel order.php?order_id=" . $row['order_id'] . "'><button type='button' class='btn btn-danger'>Confirm</button></a>";
-                        echo "      </div>";
-                        echo "    </div>";
-                        echo "  </div>";
-                        echo "</div>";
-                    }
-            } else {
-                ?>
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            <h1 class="display-5">No orders yet!</h1><br><a href="list.php"><button
-                                    class="btn btn-outline-dark">Make some now!</button> </a>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                        $order_id = $_GET['order_id'];
+
+                        echo "<h3>Order Id: " . $order_id . "</h3>";
+
+                        $conn = new mysqli("localhost", "root", "", "lazy_wear");
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+
+                        $sql = "SELECT * FROM order_items WHERE order_id = '$order_id'";
+                        $result = $conn->query($sql);
+
+                        while ($row = $result->fetch_assoc()) {
+                            $sql = "SELECT * FROM product_images WHERE id = " . $row['product_id'];
+                            $r = $conn->query($sql);
+                            $img = $r->fetch_assoc()
+                                ?>
+                            <tr>
+                                <td><a href="product.php?id=<?php echo $row['product_id']; ?>"><img
+                                            src="<?php echo $img['img1']; ?>"></a></td>
+                                <td><?php echo $row['product_id']; ?></td>
+                                <td><?php echo $row['size']; ?></td>
+                                <td><?php echo $row['quantity']; ?></td>
+
+                            </tr>
+
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <center>
         <div id="footer" class="container-fluid mt-5 bg-black">

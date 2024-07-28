@@ -190,6 +190,16 @@
                 .image-container:hover .original-image {
                     opacity: 0;
                 }
+
+
+            }
+
+            #fsearch {
+                border: solid 0.1vh black;
+                border-radius: 20vh;
+                width: 90vw;
+                margin: auto;
+
             }
         }
 
@@ -280,6 +290,14 @@
             .image-container:hover .original-image {
                 opacity: 0;
             }
+
+            #fsearch {
+                border: solid 0.2vh black;
+                border-radius: 20vh;
+                width: 30vw;
+                margin: auto;
+
+            }
         }
 
 
@@ -357,6 +375,25 @@
     <h1 class="display-2 text-center mt-5">Explore</h1>
     <p class="text-center">Our wide range of collection</p>
 
+    <?php
+    if (isset($_POST['search'])) {
+        $search = $_POST['search'];
+
+    }
+    ?>
+    <div class="container-fluid text-center mt-5">
+        <form action="list.php" method="POST">
+            <input class="form-control" id="fsearch" type="text" name="search" placeholder="<?php if (isset($search)) {
+                echo $search;
+            } else {
+                echo "Search...";
+            } ?>" aria-label="Search">
+            <button class="btn btn-outline-primary mt-2 " style=" border-radius: 20vh;" type="submit">Search</button>
+        </form>
+    </div>
+
+
+
     <div class="container-fluid text-center">
         <!-- Button to trigger the modal -->
         <button type="button" class="btn btn-outline-dark mt-1 mb-4" data-bs-toggle="modal"
@@ -377,9 +414,10 @@
                 <div class="modal-body">
                     <form action="list.php" method="POST">
                         <div class="mb-3">
-                        <label for="Search" class="form-label">Search:</label>
-                            <input class="form-control" id="search" type="text" name="search" placeholder="Search"
-                                aria-label="Search">
+                            <label for="Search" class="form-label">Search:</label>
+                            <input class="form-control" id="search" type="hidden" name="search" value="<?php if (isset($search)) {
+                                echo $search;
+                            } ?>" aria-label="Search">
                             <label for="priceFilter" class="form-label">Price:</label>
                             <select class="form-select" id="price-range" name="price-range">
                                 <option value="" disabled selected>Select price range</option>
@@ -540,8 +578,17 @@
                 echo "</a>";
                 echo "</div>";
             }
+            ?>
+            <hr>
+            <p class="text-center">Thank you for taking the time to look over our collection.<br>Have you not found
+                something you like?<br>Stay
+                tuned
+                as
+                there will be more soon!</p>
+            <hr>
+            <?php
         } else {
-            echo "0 results";
+            echo "<h1 class='display-5 text-center'>Sorry, no results found!</h1>";
         }
         echo '</div>';
         echo '</div>';
@@ -555,12 +602,7 @@
 
 
     <center>
-        <hr>
-        <p>Thank you for taking the time to look over our collection.<br>Have you not found something you like?<br>Stay
-            tuned
-            as
-            there will be more soon!</p>
-        <hr>
+
         <div id="footer" class="container-fluid mt-5 bg-black">
             <div class="row">
                 <div class="col-sm-1 col-md-6 col-lg-6 mb-5  mt-5">
